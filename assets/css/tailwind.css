@@ -1,7 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+<<<<<<< HEAD
+=======
 
 button:focus{
 	outline: none !important;
 }
+>>>>>>> 09f03c20dd541b3c2e7140e5d8dacdc2d2b35248
