@@ -23,6 +23,7 @@
             if(password_verify($password, $db_password)){
                 $_SESSION['user_logged_in'] = true;
                 $_SESSION['user_id'] = $user_details['id'];
+                $_SESSION['admin_type'] = $user_details['admin_type'];
                 $_SESSION['username'] = $user_details['name'];
                 $_SESSION['email'] = $user_details['email'];
                 $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(16));

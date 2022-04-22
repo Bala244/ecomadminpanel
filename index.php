@@ -1,5 +1,16 @@
-<?php include "inc/head.php" ?>
-<?php include "inc/header.php" ?>
+<?php
+    session_start();
+
+    header("X-XSS-Protection: 1; mode=block");
+    header("X-Frame-Options: SAMEORIGIN");
+
+    require_once "config/config.php";
+    require_once "inc/auth_validate.php";
+    include "inc/head.php";
+    include "inc/header.php";
+
+    // echo '<pre>';print_r($_SESSION);echo '</pre>';exit;
+?>
 
 <main class="h-full overflow-y-auto">
     <div classs="container px-6 mx-auto grid">

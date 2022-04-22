@@ -18,9 +18,9 @@
     /* ------- Live DB Configuration ----- */
 
     // define('DB_HOST', "localhost");
-    // define('DB_USER', "root");
-    // define('DB_PASSWORD', "");
-    // define('DB_NAME', "packurs");
+    // define('DB_USER', "packurs_packurs_admin");
+    // define('DB_PASSWORD', "admin@2022");
+    // define('DB_NAME', "packurs_admin");
 
     /**
     * Get instance of DB object
