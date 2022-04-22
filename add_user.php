@@ -1,5 +1,14 @@
-<?php include 'inc/head.php';?>
-<?php include 'inc/header.php';?>
+<?php
+    session_start();
+
+    header("X-XSS-Protection: 1; mode=block");
+    header("X-Frame-Options: SAMEORIGIN");
+
+    require_once "config/config.php";
+    require_once "inc/auth_validate.php";
+    include "inc/head.php";
+    include "inc/header.php";
+?>
 
 <main class="h-full pb-16 overflow-y-auto">
   <div class="container grid px-6 mx-auto">
