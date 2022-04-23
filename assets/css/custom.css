@@ -1,0 +1,87 @@
+.treeview {
+	 float: left;
+	 width: 100%;
+	 /*background-color: #f5f5f5;*/
+	 padding: 15px 30px 30px;
+	 color: #aaa;
+}
+ .treeview ul {
+	 float: left;
+	 width: 100%;
+	 position: relative;
+}
+ .treeview ul li {
+	 float: left;
+	 width: 100%;
+	 border-left: 1px solid #444;
+	 padding: 10px 0;
+}
+ .treeview ul li div {
+	 float: left;
+	 width: 100%;
+	 font-family: Arial;
+	 font-size: 15px;
+	 color: #dfdfdf;
+	 line-height: 1.5;
+	 padding-left: 33px;
+	 position: relative;
+	 bottom: -20px;
+}
+ .treeview ul li div:before {
+	 content: "";
+	 width: 30px;
+	 height: 1px;
+	 background-color: #444;
+	 position: absolute;
+	 top: 50%;
+	 bottom: 50%;
+	 left: 0;
+}
+ .treeview ul li ul {
+
+	 margin: 20px 0;
+}
+ .treeview ul li ul li {
+	 border-left-color: #aaa;
+	 margin-left: 50px;
+
+	 width: calc(100% - 50px);
+}
+ .treeview ul li ul li div {
+	 color: #aaa;
+	 padding-left: 15px;
+}
+ .treeview ul li ul li div:before {
+	 background-color: #aaa;
+	 width: 10px;
+}
+
+.span1{
+	flex: auto;
+	
+}
+.span-custom{
+	width:  12.7rem;;
+}
+.span-custom1{
+	width: 12.7rem;
+}
+.span-custom2{
+	width: 9.7rem;
+}
+.custom-hidden{
+	display: none;
+}
+.custom-plus{
+	cursor: pointer;
+	font-size: 23px;
+    background: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 1px;
+    /* line-height: 18px; */
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

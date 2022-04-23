@@ -12,11 +12,9 @@
     // echo '<pre>';print_r($_SESSION);echo '</pre>';exit;
 ?>
 
-<main class="h-full overflow-y-auto">
-    <div classs="container px-6 mx-auto grid">
+<main class="h-full pb-16 overflow-y-auto">
+    <div class="container grid px-6 mx-auto">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Dashboard</h2>
-        <!-- CTA -->
-
         <!-- Cards -->
         <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
             <!-- Card -->

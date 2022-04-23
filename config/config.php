@@ -5,7 +5,7 @@
     define('BASE_PATH', dirname(dirname(__FILE__)));
     define('CURRENT_PAGE', basename($_SERVER['REQUEST_URI']));
 
-    // require_once BASE_PATH . '/lib/MysqliDb/MysqliDb.php';
+    require_once BASE_PATH . '/mysqli.php';
     require_once BASE_PATH . '/helpers/helpers.php';
 
     /* ------- Local DB Configuration ----- */
@@ -31,5 +31,7 @@
     function getDbInstance() {
         return new MysqliDb(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     }
+
+
 
 ?>
