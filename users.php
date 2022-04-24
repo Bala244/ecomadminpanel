@@ -36,7 +36,10 @@
 
 <main class="h-full pb-16 overflow-y-auto">
     <div class="container grid px-6 mx-auto">
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Users</h2>
+        <div class="flex justify-between">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Users</h2>
+            <a href="add_user.php" class="my-6 px-12 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">Add User</a>
+        </div>
 
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
@@ -160,4 +163,5 @@
     </div>
 </main>
 
+<?php include 'inc/footer-links.php';?>
 <?php include 'inc/footer.php';?>
