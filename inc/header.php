@@ -13,14 +13,14 @@
                         </a>
                     </li>
                     <li class="relative px-6 py-3">
-                        
+
                         <a href="users.php" class="nav-link inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
                            <i class="fa-solid fa-users"></i>
                             <span class="ml-4">Users</span>
                         </a>
                     </li>
                     <li class="relative px-6 py-3">
-                        
+
                         <a href="categories.php" class="nav-link inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
                             <i class="fa-solid fa-list-ul"></i>
                             <span class="ml-4">Category</span>
@@ -52,7 +52,7 @@
                     </div>
                     <ul class="flex items-center flex-shrink-0 space-x-6">
                         <!-- Theme toggler -->
-                        <?php /* ?><li class="flex">
+                        <li class="flex">
                             <button class="rounded-md focus:outline-none focus:shadow-outline-purple" @click="toggleTheme" aria-label="Toggle color mode">
                                 <template x-if="!dark">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -65,7 +65,7 @@
                                     </svg>
                                 </template>
                             </button>
-                        </li>?php */ ?>
+                        </li>
                         <!-- Notifications menu -->
                         <?php /* ?><li class="relative">
                             <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple" @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu" aria-label="Notifications" aria-haspopup="true">
