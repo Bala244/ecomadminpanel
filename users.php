@@ -163,4 +163,5 @@
     </div>
 </main>
 
+<?php include 'inc/footer-links.php';?>
 <?php include 'inc/footer.php';?>

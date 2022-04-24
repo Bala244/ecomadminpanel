@@ -9,32 +9,48 @@
 
     require_once "config/config.php";
     require_once "inc/auth_validate.php";
-    function categoryTree($parent_id = 0, $sub_mark = '', $level = 0){
+    $result = mysqli_query($conn, "SELECT * FROM category WHERE status=1 ORDER BY parent_id");
+
+   
+    $category = array(
+        'categories' => array(),
+        'parent_cats' => array()
+    );
+
+    
+    while ($row = mysqli_fetch_assoc($result)) {
         
-        global $conn;
-        $query = "SELECT * FROM `category` WHERE `parent_id` = $parent_id ORDER BY `name` ASC";
-        $execute = mysqli_query($conn, $query);
+        $category['categories'][$row['id']] = $row;
+        
+        $category['parent_cats'][$row['parent_id']][] = $row['id'];
+    }
 
-        if(mysqli_num_rows($execute) > 0){
-            while($row = mysqli_fetch_assoc($execute)){
-                // print_r($row); print_r($level);echo '<br>';
-                echo '<option value="'.$row['id'].','.$level.'">'.$sub_mark.$row['name'].'</option>';
-                categoryTree($row['id'], $sub_mark.'---', $level+1);
+    function buildCategory($parent, $category, $hiddenClass) {
+        $html = "";
+        if (isset($category['parent_cats'][$parent])) {
+            $html .= "<ul class='".$hiddenClass."'>\n";
+            foreach ($category['parent_cats'][$parent] as $cat_id) {
+                if (!isset($category['parent_cats'][$cat_id])) {
+                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='text-sm highlighter-none cursor-pointer' data-id=".$category['categories'][$cat_id]['id'].">" . $category['categories'][$cat_id]['name'] . "</span></div></li> \n";
+                }
+                if (isset($category['parent_cats'][$cat_id])) {
+                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='custom-plus toggle-click' style='position: absolute;left: -14px;'>+</span><span class='text-sm highlighter-none cursor-pointer' data-id=".$category['categories'][$cat_id]['id'].">" . $category['categories'][$cat_id]['name'] . "</span></div> \n";
+                    $html .= buildCategory($cat_id, $category, 'main-ul custom-hidden');
+                    $html .= "</li> \n";
+                }
             }
+            $html .= "</ul> \n";
         }
-
+        return $html;
     }
     
 
     if ($_POST) {
-      $parent_level_ids = explode(',', $_POST['category']);
-      $parent_id = $parent_level_ids[0];
-      $level = $parent_level_ids[1];
-      // print_r($parent_id);exit;
+
+      // print_r($_POST);exit;
       $data['name'] = $_POST['name'];
       $data['description'] = $_POST['description'];
-      $data['parent_id'] = $parent_id;
-      $data['level'] = $level;
+      $data['parent_id'] = $_POST['parent_id'];
       $data['status'] = $_POST['status'];
       $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
@@ -70,6 +86,7 @@
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Name</span>
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="name" placeholder="Jane Doe" required>
+          <input type="hidden" name="parent_id" class="parent_id" value="0">
         </label>
 
         <label class="block mt-4 text-sm">
@@ -78,13 +95,18 @@
         </label>
 
         <label class="block mt-4 text-sm">
-          <span class="text-gray-700 dark:text-gray-400">
-            Category
-          </span>
-          <select name="category" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option value="0,0">Parent Category</option>
-            <?php echo categoryTree(); ?>
-          </select>
+          <div class="flex justify-between">
+            <span class="text-gray-700 dark:text-gray-400">
+              Category
+            </span>
+            <a href="javascript::" class="reset-cat text-blue-700 dark:text-blue-400">
+                Reset
+            </a>
+          </div>
+          <div class="cate-div treeview">
+            <?php echo buildCategory(0, $category, ''); ?>
+          </div>
+          
         </label>
 
         <label class="block mt-4 text-sm">
@@ -116,4 +138,36 @@
   </div>
 </main>
 
+<?php include 'inc/footer-links.php';?>
+<script>
+    $(document).ready(function(){
+        $('.toggle-click').off('click').click(function(){
+            // $('.main-ul').addClass('custom-hidden');
+            $(this).parent().parent().children('ul').toggle();
+
+            if ($(this).text() == '+') {
+                $(this).text('-');
+            }else{
+                $(this).text('+');
+            }
+
+            // console.log('here', $(this).text());
+        });
+
+        $('.highlighter-none').off('click').click(function(){
+          $('.highlighter-none').removeClass('text-zinc-50 px-3 bg-purple-600');
+          $(this).addClass('text-zinc-50 px-3 bg-purple-600');
+          var catId = $(this).attr('data-id');
+          console.log(catId);
+          $('.parent_id').val(catId);
+        });
+
+        $('.reset-cat').off('click').click(function(){
+          $('.highlighter-none').removeClass('text-zinc-50 px-3 bg-purple-600 custom-active-highlighter');
+          $('.parent_id').val(0);
+
+        });
+    });
+</script>
 <?php include 'inc/footer.php';?>
+

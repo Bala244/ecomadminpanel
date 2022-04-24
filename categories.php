@@ -8,7 +8,7 @@
     require_once "inc/auth_validate.php";
 
 
-    $result = mysqli_query($conn, "SELECT * FROM category WHERE status=1 ORDER BY parent_id");
+    $result = mysqli_query($conn, "SELECT * FROM category ORDER BY parent_id");
 
    
     $category = array(
@@ -30,10 +30,10 @@
             $html .= "<ul class='".$hiddenClass."'>\n";
             foreach ($category['parent_cats'][$parent] as $cat_id) {
                 if (!isset($category['parent_cats'][$cat_id])) {
-                    $html .= "<li class=''><div class='flex'><span class='text-sm span1'>" . $category['categories'][$cat_id]['name'] . "</span><span class='text-sm span-custom1'>Active</span><span class='text-sm span-custom2'>Edit</span></div></li> \n";
+                    $html .= "<li class=''><div class='flex py-1'><span class='text-sm span1'><a href='edit_category.php?id=". $category['categories'][$cat_id]['id'] ."'>" . $category['categories'][$cat_id]['name'] . "</a></span><span class='text-sm span-custom1'>10</span><span class='text-sm span-custom2'>".$category['categories'][$cat_id]['status'] . "</span> </div></li> \n";
                 }
                 if (isset($category['parent_cats'][$cat_id])) {
-                    $html .= "<li class=''><div class='flex'><span class='custom-plus toggle-click' style='position: absolute;left: -14px;'>+</span><span class='text-sm span1'>" . $category['categories'][$cat_id]['name'] . "</span><span class='text-sm span-custom1'>Active</span><span class='text-sm span-custom2'>Edit</span></div> \n";
+                    $html .= "<li class=''><div class='flex py-1'><span class='custom-plus toggle-click' style='position: absolute;left: -14px;'>+</span><span class='text-sm span1'><a href='edit_category.php?id=". $category['categories'][$cat_id]['id'] ."'>" . $category['categories'][$cat_id]['name'] . "</a></span><span class='text-sm span-custom1'>10</span><span class='text-sm span-custom2'>".$category['categories'][$cat_id]['status'] . "</span></div> \n";
                     $html .= buildCategory($cat_id, $category, 'main-ul custom-hidden');
                     $html .= "</li> \n";
                 }
@@ -61,9 +61,9 @@
                     <thead>
                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3">Name</th>
-                            <!-- <th class="px-4 py-3 w-2/12">Description</th> -->
+                            <th class="px-4 py-3 w-2/12">No Of Products</th>
                             <th class="px-4 py-3 w-2/12">Status</th>
-                            <th class="px-4 py-3 w-2/12">Actions</th>
+                            <!-- <th class="px-4 py-3 w-2/12">Actions</th> -->
                         </tr>
                     </thead>
                 </table>
@@ -135,11 +135,13 @@
     </div>
 </main>
 
-<?php include 'inc/footer.php';?>
-
+<?php include 'inc/footer-links.php';?>
 <script>
     $(document).ready(function(){
-        $('.toggle-click').click(function(){
+        $('.toggle-click').off('click').click(function(){
+            // e.stopPropagation();
+            console.log('error', $(this).parent().parent().children('ul'));
+
             // $('.main-ul').addClass('custom-hidden');
             $(this).parent().parent().children('ul').toggle();
 
@@ -153,3 +155,6 @@
         });
     });
 </script>
+<?php include 'inc/footer.php';?>
+
+
