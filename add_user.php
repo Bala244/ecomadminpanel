@@ -6,26 +6,54 @@
 
     require_once "config/config.php";
     require_once "inc/auth_validate.php";
-    include "inc/head.php";
-    include "inc/header.php";
+
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
-        echo '<pre>';print_r($_FILES);echo '</pre>';exit;
+        // echo '<pre>';print_r($_FILES);echo '</pre>';exit;
 
         if(isset($_FILES['profile_image']) && !empty($_FILES['profile_image'])){
             $filename = basename($_FILES['profile_image']['name']);
             $temp_path = $_FILES['profile_image']['tmp_name'];
             $upload_folder = "uploads/users/".$filename;
 
-            if(!move_uploaded_file($temp_path, $upload_folder)){
+            if(move_uploaded_file($temp_path, $upload_folder)){
+                $filepath = $upload_folder;
+            }else{
+                $filepath = '';
                 $_SESSION['failure'] = "Profile Image not Uploaded";
             }
         }
-        echo 'here';exit;
+
+        $db_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        $name = isset($_POST['name']) && $_POST['name'] != '' ? $_POST['name'] : '';
+        $email = isset($_POST['email']) && $_POST['email'] != '' ? $_POST['email'] : '';
+        $password = $db_password;
+        $mobile_no = isset($_POST['mobile_no']) && $_POST['mobile_no'] != '' ? $_POST['mobile_no'] : '';
+        $gender = isset($_POST['gender']) && $_POST['gender'] != '' ? $_POST['gender'] : '';
+        $address = isset($_POST['address']) && $_POST['address'] != '' ? $_POST['address'] : '';
+        $profile_image = $filepath;
+        $created_at = date('Y-m-d H:i:s');
+        $created_by = $_SESSION['user_id'];
+
+        $query1 = "INSERT INTO `users` (`name`, `email`, `password`, `mobile_no`, `gender`, `address`, `profile_image`, `is_active`, `created_at`, `created_by`)
+            VALUES ('".$name."', '".$email."', '".$password."', '".$mobile_no."', '".$gender."', '".$address."', '".$filepath."', '1', '".$created_at."', '".$created_by."')";
+        $execute1 = mysqli_query($conn, $query1);
+
+        if($execute1){
+            $_SESSION['success'] = 'User Created Successfully';
+            header("Location:users.php");exit;
+        }else{
+            $_SESSION['failure'] = 'User Not Created. Please Try Again.';
+            header("Location:users.php");exit;
+        }
     }
 ?>
-
+<?php
+    include "inc/head.php";
+    include "inc/header.php";
+?>
 
 
 <main class="h-full pb-16 overflow-y-auto">
@@ -49,6 +77,11 @@
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Password</span>
             <input type="password" name="password" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Password" autocomplete="Off">
+          </label>
+
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
+            <input type="text" name="mobile_no" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Mobile Number" autocomplete="Off">
           </label>
 
           <div class="mt-4 text-sm">
