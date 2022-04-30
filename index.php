@@ -6,12 +6,14 @@
 
     require_once "config/config.php";
     require_once "inc/auth_validate.php";
-    include "inc/head.php";
-    include "inc/header.php";
+
 
     // echo '<pre>';print_r($_SESSION);echo '</pre>';exit;
 ?>
-
+<?php
+    include "inc/head.php";
+    include "inc/header.php";
+?>
 <main class="h-full pb-16 overflow-y-auto">
     <div class="container grid px-6 mx-auto">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Dashboard</h2>

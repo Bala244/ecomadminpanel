@@ -8,19 +8,19 @@
     require_once "inc/auth_validate.php";
 
 
-    $result = mysqli_query($conn, "SELECT * FROM category ORDER BY parent_id");
+    $result = mysqli_query($conn, "SELECT * FROM category ORDER BY parent_id, id");
 
-   
+
     $category = array(
         'categories' => array(),
         'parent_cats' => array()
     );
 
-    
+
     while ($row = mysqli_fetch_assoc($result)) {
-        
+
         $category['categories'][$row['id']] = $row;
-        
+
         $category['parent_cats'][$row['parent_id']][] = $row['id'];
     }
 
@@ -156,5 +156,3 @@
     });
 </script>
 <?php include 'inc/footer.php';?>
-
-
