@@ -23,18 +23,53 @@
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
-        echo '<pre>';print_r($_FILES);echo '</pre>';exit;
+        // echo '<pre>';print_r($_FILES);echo '</pre>';exit;
 
-        if(isset($_FILES['profile_image']) && !empty($_FILES['profile_image'])){
+        $query_condition = '';
+
+        if(isset($_FILES['profile_image']) && $_FILES['profile_image']['name'] != ''){
             $filename = basename($_FILES['profile_image']['name']);
             $temp_path = $_FILES['profile_image']['tmp_name'];
             $upload_folder = "uploads/users/".$filename;
 
-            if(!move_uploaded_file($temp_path, $upload_folder)){
+            if(move_uploaded_file($temp_path, $upload_folder)){
+                $filepath = $upload_folder;
+
+                $query_condition .= ", `profile_image` = '".$filepath."'";
+            }else{
+                $filepath = '';
                 $_SESSION['failure'] = "Profile Image not Uploaded";
             }
         }
-        echo 'here';exit;
+
+        $password = isset($_POST['password']) && $_POST['password'] != '' ? $_POST['password'] : '';
+        $db_password = '';
+
+        if($password != ''){
+            $db_password = password_hash($password, PASSWORD_DEFAULT);
+            $query_condition .= ", `password` ='".$db_password."'";
+        }
+
+        $name = isset($_POST['name']) && $_POST['name'] != '' ? $_POST['name'] : '';
+        $email = isset($_POST['email']) && $_POST['email'] != '' ? $_POST['email'] : '';
+        $mobile_no = isset($_POST['mobile_no']) && $_POST['mobile_no'] != '' ? $_POST['mobile_no'] : '';
+        $gender = isset($_POST['gender']) && $_POST['gender'] != '' ? $_POST['gender'] : '';
+        $address = isset($_POST['address']) && $_POST['address'] != '' ? $_POST['address'] : '';
+        $updated_at = date('Y-m-d H:i:s');
+        $updated_by = $_SESSION['user_id'];
+
+        $query1 = "UPDATE `users` SET `name` = '".$name."', `email` = '".$email."', `mobile_no`='".$mobile_no."',
+            `gender` ='".$gender."', `address` = '".$address."', `updated_at` = '".$updated_at."',
+            `updated_by` = '".$updated_by."'".$query_condition." WHERE `id` = ".$user_id."";
+        // echo $query1;exit;
+        if(mysqli_query($conn, $query1)){
+            $_SESSION['success'] = 'User Data Updated Successfully.';
+            header('Location:users.php');exit;
+        }else{
+            $_SESSION['failure'] = 'User Data Not Updated. Please Try Again.';
+            header("Location:users.php");exit;
+        }
+
     }
 ?>
 <?php
@@ -49,7 +84,7 @@
       Edit User
     </h2>
 
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']).'?user_id='.$user_id;?>" method="post" enctype="multipart/form-data">
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Name</span>

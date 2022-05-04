@@ -9,48 +9,24 @@
 
     require_once "config/config.php";
     require_once "inc/auth_validate.php";
-    $result = mysqli_query($conn, "SELECT * FROM category WHERE status=1 ORDER BY parent_id");
 
-   
-    $category = array(
-        'categories' => array(),
-        'parent_cats' => array()
-    );
+    $get_id = filter_input(INPUT_GET, 'id');
+    $db = getDbInstance();
+    $db->where('id', $get_id);
+    $update_data = $db->getOne('sub_category_1');
 
-    
-    while ($row = mysqli_fetch_assoc($result)) {
+    // print_r($update_data);exit;
+
         
-        $category['categories'][$row['id']] = $row;
-        
-        $category['parent_cats'][$row['parent_id']][] = $row['id'];
-    }
-
-    function buildCategory($parent, $category, $hiddenClass) {
-        $html = "";
-        if (isset($category['parent_cats'][$parent])) {
-            $html .= "<ul class='".$hiddenClass."'>\n";
-            foreach ($category['parent_cats'][$parent] as $cat_id) {
-                if (!isset($category['parent_cats'][$cat_id])) {
-                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='text-sm highlighter-none cursor-pointer' data-id=".$category['categories'][$cat_id]['id'].">" . $category['categories'][$cat_id]['name'] . "</span></div></li> \n";
-                }
-                if (isset($category['parent_cats'][$cat_id])) {
-                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='custom-plus toggle-click' style='position: absolute;left: -14px;'>+</span><span class='text-sm highlighter-none cursor-pointer' data-id=".$category['categories'][$cat_id]['id'].">" . $category['categories'][$cat_id]['name'] . "</span></div> \n";
-                    $html .= buildCategory($cat_id, $category, 'main-ul custom-hidden');
-                    $html .= "</li> \n";
-                }
-            }
-            $html .= "</ul> \n";
-        }
-        return $html;
-    }
-    
+    $db = getDbInstance();
+    $main_categories = $db->get('category');
 
     if ($_POST) {
 
       // print_r($_POST);exit;
       $data['name'] = $_POST['name'];
       $data['description'] = $_POST['description'];
-      $data['parent_id'] = 0;
+      $data['category_id'] = $_POST['category_id'];
       $data['status'] = $_POST['status'];
       $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
@@ -58,15 +34,14 @@
       $db = getDbInstance();
       // print_r($data);exit;
       $db->where('name', $data['name']);
-      $db->where('parent_id', $data['parent_id']);
-      $category = $db->get('category');
+      $category = $db->get('sub_category_1');
       
       // print_r(count($category));exit;
 
-      if (count($category) == 0) {
-        $resonce = $db->insert('category',$data);
-        header('location: categories.php'); 
-      }
+      $db->where('id',$get_id);
+      $resonce = $db->update('sub_category_1',$data);
+      header('location: sub_category_1.php'); 
+
     }
 
 
@@ -75,48 +50,45 @@
 ?>
 
 
- 
+
 <main class="h-full pb-16 overflow-y-auto">
   <div class="container grid px-6 mx-auto">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-      Add Category 
+      Edit Category
     </h2>
     <form action="" method="post">
       <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Name</span>
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="name" placeholder="Jane Doe" required>
-          <input type="hidden" name="parent_id" class="parent_id" value="0">
+          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="name" placeholder="Jane Doe" value="<?php echo $update_data['name'] ?>" required>
+          <input type="hidden" name="parent_id" class="parent_id" value="<?php echo $update_data['parent_id'] ?>">
         </label>
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">Description</span>
-          <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content." name="description"></textarea>
+          <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content." name="description"><?php echo $update_data['description'] ?></textarea>
         </label>
 
-        <!-- <label class="block mt-4 text-sm">
-          <div class="flex justify-between">
-            <span class="text-gray-700 dark:text-gray-400">
-              Category
-            </span>
-            <a href="javascript::" class="reset-cat text-blue-500 dark:text-blue-400">
-                Reset
-            </a>
-          </div>
-           Tree View
-          <div class="cate-div treeview">
-            <?php echo buildCategory(0, $category, ''); ?>
-          </div>
-          
-        </label> -->
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Category
+          </span>
+          <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($main_categories as $main_category) { ?>
+              <option value="<?php echo $main_category['id'] ?>" <?php echo ( $main_category['id'] == $update_data['category_id'] ) ? 'selected' : '' ?>><?php echo $main_category['name'] ?></option>
+            <?php } ?>
+            
+          </select>
+        </label>
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">
             Status
           </span>
           <select name="status" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option value="1">Active</option>
-            <option value="0">Inactive</option>
+            <option value="1" <?php echo ( $update_data['status'] == '1' ) ? 'selected' : '' ?>>Active</option>
+            <option value="0" <?php echo ( $update_data['status'] == '0' ) ? 'selected' : '' ?>>Inactive</option>
             
           </select>
         </label>
@@ -142,6 +114,12 @@
 <?php include 'inc/footer-links.php';?>
 <script>
     $(document).ready(function(){
+        
+        var par_id = $('.parent_id').val();
+
+        $('.highlighter-none[data-id="'+par_id+'"]').addClass('text-zinc-50 px-3 bg-purple-600');
+         $('.highlighter-none[data-id="'+par_id+'"]').parents(".custom-hidden").removeClass( "custom-hidden" );
+
         $('.toggle-click').off('click').click(function(){
             // $('.main-ul').addClass('custom-hidden');
             $(this).parent().parent().children('ul').toggle();
@@ -155,11 +133,12 @@
             // console.log('here', $(this).text());
         });
 
+
         $('.highlighter-none').off('click').click(function(){
-          $('.highlighter-none').removeClass('text-zinc-50 px-3 bg-purple-600');
+          $('.highlighter-none').removeClass('text-zinc-50 px-3 bg-purple-600 custom-active-highlighter');
           $(this).addClass('text-zinc-50 px-3 bg-purple-600');
           var catId = $(this).attr('data-id');
-          console.log(catId);
+          // console.log(catId);
           $('.parent_id').val(catId);
         });
 

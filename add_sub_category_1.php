@@ -9,48 +9,17 @@
 
     require_once "config/config.php";
     require_once "inc/auth_validate.php";
-    $result = mysqli_query($conn, "SELECT * FROM category WHERE status=1 ORDER BY parent_id");
-
-   
-    $category = array(
-        'categories' => array(),
-        'parent_cats' => array()
-    );
 
     
-    while ($row = mysqli_fetch_assoc($result)) {
-        
-        $category['categories'][$row['id']] = $row;
-        
-        $category['parent_cats'][$row['parent_id']][] = $row['id'];
-    }
-
-    function buildCategory($parent, $category, $hiddenClass) {
-        $html = "";
-        if (isset($category['parent_cats'][$parent])) {
-            $html .= "<ul class='".$hiddenClass."'>\n";
-            foreach ($category['parent_cats'][$parent] as $cat_id) {
-                if (!isset($category['parent_cats'][$cat_id])) {
-                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='text-sm highlighter-none cursor-pointer' data-id=".$category['categories'][$cat_id]['id'].">" . $category['categories'][$cat_id]['name'] . "</span></div></li> \n";
-                }
-                if (isset($category['parent_cats'][$cat_id])) {
-                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='custom-plus toggle-click' style='position: absolute;left: -14px;'>+</span><span class='text-sm highlighter-none cursor-pointer' data-id=".$category['categories'][$cat_id]['id'].">" . $category['categories'][$cat_id]['name'] . "</span></div> \n";
-                    $html .= buildCategory($cat_id, $category, 'main-ul custom-hidden');
-                    $html .= "</li> \n";
-                }
-            }
-            $html .= "</ul> \n";
-        }
-        return $html;
-    }
-    
+    $db = getDbInstance();
+    $main_categories = $db->get('category');
 
     if ($_POST) {
 
       // print_r($_POST);exit;
       $data['name'] = $_POST['name'];
       $data['description'] = $_POST['description'];
-      $data['parent_id'] = 0;
+      $data['category_id'] = $_POST['category_id'];
       $data['status'] = $_POST['status'];
       $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
@@ -58,14 +27,13 @@
       $db = getDbInstance();
       // print_r($data);exit;
       $db->where('name', $data['name']);
-      $db->where('parent_id', $data['parent_id']);
-      $category = $db->get('category');
+      $category = $db->get('sub_category_1');
       
       // print_r(count($category));exit;
 
       if (count($category) == 0) {
-        $resonce = $db->insert('category',$data);
-        header('location: categories.php'); 
+        $resonce = $db->insert('sub_category_1',$data);
+        header('location: sub_category_1.php'); 
       }
     }
 
@@ -94,21 +62,17 @@
           <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content." name="description"></textarea>
         </label>
 
-        <!-- <label class="block mt-4 text-sm">
-          <div class="flex justify-between">
-            <span class="text-gray-700 dark:text-gray-400">
-              Category
-            </span>
-            <a href="javascript::" class="reset-cat text-blue-500 dark:text-blue-400">
-                Reset
-            </a>
-          </div>
-           Tree View
-          <div class="cate-div treeview">
-            <?php echo buildCategory(0, $category, ''); ?>
-          </div>
-          
-        </label> -->
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Category
+          </span>
+          <select name="category_id" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <?php foreach ($main_categories as $main_category) { ?>
+              <option value="<?php echo $main_category['id'] ?>"><?php echo $main_category['name'] ?></option>
+            <?php } ?>
+            
+          </select>
+        </label>
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">
