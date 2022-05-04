@@ -13,28 +13,35 @@
     $get_id = filter_input(INPUT_GET, 'id');
     $db = getDbInstance();
     $db->where('id', $get_id);
-    $update_data = $db->getOne('category');
+    $update_data = $db->getOne('sub_category_1');
 
     // print_r($update_data);exit;
 
-    
+        
+    $db = getDbInstance();
+    $main_categories = $db->get('category');
 
     if ($_POST) {
 
       // print_r($_POST);exit;
       $data['name'] = $_POST['name'];
       $data['description'] = $_POST['description'];
-      $data['parent_id'] = 0;
+      $data['category_id'] = $_POST['category_id'];
       $data['status'] = $_POST['status'];
       $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
 
       $db = getDbInstance();
       // print_r($data);exit;
+      $db->where('name', $data['name']);
+      $category = $db->get('sub_category_1');
+      
+      // print_r(count($category));exit;
 
       $db->where('id',$get_id);
-      $resonce = $db->update('category',$data);
-      header('location: categories.php'); 
+      $resonce = $db->update('sub_category_1',$data);
+      header('location: sub_category_1.php'); 
+
     }
 
 
@@ -62,7 +69,18 @@
           <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content." name="description"><?php echo $update_data['description'] ?></textarea>
         </label>
 
-        
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Category
+          </span>
+          <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($main_categories as $main_category) { ?>
+              <option value="<?php echo $main_category['id'] ?>" <?php echo ( $main_category['id'] == $update_data['category_id'] ) ? 'selected' : '' ?>><?php echo $main_category['name'] ?></option>
+            <?php } ?>
+            
+          </select>
+        </label>
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">

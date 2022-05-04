@@ -12,7 +12,7 @@
     {
         // echo '<pre>';print_r($_FILES);echo '</pre>';exit;
 
-        if(isset($_FILES['profile_image']) && !empty($_FILES['profile_image'])){
+        if(isset($_FILES['profile_image']) && $_FILES['profile_image']['name'] != ''){
             $filename = basename($_FILES['profile_image']['name']);
             $temp_path = $_FILES['profile_image']['tmp_name'];
             $upload_folder = "uploads/users/".$filename;
@@ -37,8 +37,8 @@
         $created_at = date('Y-m-d H:i:s');
         $created_by = $_SESSION['user_id'];
 
-        $query1 = "INSERT INTO `users` (`name`, `email`, `password`, `mobile_no`, `gender`, `address`, `profile_image`, `is_active`, `created_at`, `created_by`)
-            VALUES ('".$name."', '".$email."', '".$password."', '".$mobile_no."', '".$gender."', '".$address."', '".$filepath."', '1', '".$created_at."', '".$created_by."')";
+        $query1 = "INSERT INTO `users` (`name`, `email`, `password`, `mobile_no`, `admin_type`, `gender`, `address`, `profile_image`, `is_active`, `created_at`, `created_by`)
+            VALUES ('".$name."', '".$email."', '".$password."', '".$mobile_no."', 'admin', '".$gender."', '".$address."', '".$filepath."', '1', '".$created_at."', '".$created_by."')";
         $execute1 = mysqli_query($conn, $query1);
 
         if($execute1){

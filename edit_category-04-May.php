@@ -16,7 +16,39 @@
     $update_data = $db->getOne('category');
 
     // print_r($update_data);exit;
+    $result = mysqli_query($conn, "SELECT * FROM category WHERE status=1 ORDER BY parent_id");
+    $category = array(
+        'categories' => array(),
+        'parent_cats' => array()
+    );
 
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        
+        $category['categories'][$row['id']] = $row;
+        
+        $category['parent_cats'][$row['parent_id']][] = $row['id'];
+    }
+
+    function buildCategory($parent, $category, $hiddenClass, $update_data) {
+        $html = "";
+        if (isset($category['parent_cats'][$parent])) {
+            $html .= "<ul class='".$hiddenClass."'>\n";
+            foreach ($category['parent_cats'][$parent] as $cat_id) {
+              $par_id = $category['categories'][$cat_id]['id'];
+                if (!isset($category['parent_cats'][$cat_id])) {
+                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='text-sm highlighter-none cursor-pointer' data-id=".$par_id.">" . $category['categories'][$cat_id]['name'] . "</span></div></li> \n";
+                }
+                if (isset($category['parent_cats'][$cat_id])) {
+                    $html .= "<li class=''><div class='flex py-1 relative px-4'><span class='custom-plus toggle-click' style='position: absolute;left: -14px;'>+</span><span class='text-sm highlighter-none cursor-pointer' data-id=".$par_id.">" . $category['categories'][$cat_id]['name'] . "</span></div> \n";
+                    $html .= buildCategory($cat_id, $category, 'main-ul custom-hidden', $update_data);
+                    $html .= "</li> \n";
+                }
+            }
+            $html .= "</ul> \n";
+        }
+        return $html;
+    }
     
 
     if ($_POST) {
@@ -24,17 +56,30 @@
       // print_r($_POST);exit;
       $data['name'] = $_POST['name'];
       $data['description'] = $_POST['description'];
-      $data['parent_id'] = 0;
+      $data['parent_id'] = $_POST['parent_id'];
       $data['status'] = $_POST['status'];
       $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
 
       $db = getDbInstance();
       // print_r($data);exit;
-
-      $db->where('id',$get_id);
-      $resonce = $db->update('category',$data);
-      header('location: categories.php'); 
+      $db->where('id', $get_id, '!=');
+      $db->where('name', $data['name']);
+      $db->where('parent_id', $data['parent_id']);
+      $category = $db->get('category');
+      
+      // print_r(count($category));exit;
+      if ($data['parent_id'] != $get_id) {
+        if (count($category) == 0) {
+            $db->where('id',$get_id);
+            $resonce = $db->update('category',$data);
+            header('location: categories.php'); 
+        }else{
+          header('location: edit_category.php?id='.$get_id);
+        }
+      }else{
+          header('location: edit_category.php?id='.$get_id);
+      }
     }
 
 
@@ -62,7 +107,20 @@
           <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content." name="description"><?php echo $update_data['description'] ?></textarea>
         </label>
 
-        
+        <label class="block mt-4 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-700 dark:text-gray-400">
+              Category
+            </span>
+            <a href="javascript::" class="reset-cat text-blue-700 dark:text-blue-400">
+                Reset
+            </a>
+          </div>
+          <div class="cate-div treeview">
+            <?php echo buildCategory(0, $category, '', $update_data); ?>
+          </div>
+          
+        </label>
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">
@@ -77,13 +135,13 @@
         
         <div class="flex mt-6 mb-6 justify-end">
             <div>
-              <button class="mr-4 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='categories.php'">
+              <button class="mr-4 px-12 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='categories.php'">
                 Cancel
               </button>
             </div>
 
             <div>
-              <button type="submit" class=" px-10 py-3  font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">
+              <button type="submit" class=" px-12 py-3  font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">
                 Submit
               </button>
             </div>

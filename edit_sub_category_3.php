@@ -13,28 +13,44 @@
     $get_id = filter_input(INPUT_GET, 'id');
     $db = getDbInstance();
     $db->where('id', $get_id);
-    $update_data = $db->getOne('category');
+    $update_data = $db->getOne('sub_category_3');
 
     // print_r($update_data);exit;
 
-    
+        
+    $db = getDbInstance();
+    $main_categories = $db->get('category');
+
+    $db = getDbInstance();
+    $db->where('category_id', $update_data['category_id']);
+    $sub_1_categories = $db->get('sub_category_1');
+
+    $db = getDbInstance();
+    $db->where('sub_category_id_1', $update_data['sub_category_id_1']);
+    $sub_2_categories = $db->get('sub_category_2');
 
     if ($_POST) {
 
       // print_r($_POST);exit;
       $data['name'] = $_POST['name'];
       $data['description'] = $_POST['description'];
-      $data['parent_id'] = 0;
+      $data['category_id'] = $_POST['category_id'];
+      $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
+      $data['sub_category_id_2'] = $_POST['sub_category_id_2'];
       $data['status'] = $_POST['status'];
       $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
 
       $db = getDbInstance();
       // print_r($data);exit;
-
+      $db->where('name', $data['name']);
+      $category = $db->get('sub_category_3');
+      
+      // print_r(count($category));exit;
+  
       $db->where('id',$get_id);
-      $resonce = $db->update('category',$data);
-      header('location: categories.php'); 
+      $resonce = $db->update('sub_category_3',$data);
+      header('location: sub_category_3.php'); 
     }
 
 
@@ -62,7 +78,44 @@
           <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content." name="description"><?php echo $update_data['description'] ?></textarea>
         </label>
 
-        
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Category
+          </span>
+          <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($main_categories as $main_category) { ?>
+              <option value="<?php echo $main_category['id'] ?>" <?php echo ( $main_category['id'] == $update_data['category_id'] ) ? 'selected' : '' ?>><?php echo $main_category['name'] ?></option>
+            <?php } ?>
+            
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 1
+          </span>
+          <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($sub_1_categories as $sub_1_category) { ?>
+              <option value="<?php echo $sub_1_category['id'] ?>" <?php echo ( $sub_1_category['id'] == $update_data['sub_category_id_1'] ) ? 'selected' : '' ?>><?php echo $sub_1_category['name'] ?></option>
+            <?php } ?>
+            
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 2
+          </span>
+          <select name="sub_category_id_1" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($sub_2_categories as $sub_2_category) { ?>
+              <option value="<?php echo $sub_2_category['id'] ?>" <?php echo ( $sub_2_category['id'] == $update_data['sub_category_id_2'] ) ? 'selected' : '' ?>><?php echo $sub_2_category['name'] ?></option>
+            <?php } ?>
+            
+          </select>
+        </label>
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">
@@ -128,6 +181,39 @@
           $('.highlighter-none').removeClass('text-zinc-50 px-3 bg-purple-600 custom-active-highlighter');
           $('.parent_id').val(0);
 
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        
+        $('.sub_category_1').change(function(){
+          $.ajax({
+            url: "ajax_data.php?id="+this.value+"&cate_id=sub_category_1",
+
+            success: function(result){
+              $('.sub_category_2').html('');
+              $('.sub_category_2').append(result);
+            }
+
+          });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        
+        $('.sub_category_2').change(function(){
+          $.ajax({
+            url: "ajax_data.php?id="+this.value+"&cate_id=sub_category_2",
+
+            success: function(result){
+              $('.sub_category_3').html('');
+              $('.sub_category_3').append(result);
+            }
+
+          });
         });
     });
 </script>

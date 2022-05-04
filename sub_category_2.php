@@ -8,7 +8,7 @@
     require_once "inc/auth_validate.php";
 
     $db = getDbInstance();
-    $main_categories = $db->get('category');
+    $main_categories = $db->get('sub_category_2');
     // print_r($main_categories);exit;
 
     include "inc/head.php";
@@ -20,7 +20,7 @@
     <div class="container grid px-6 mx-auto">
         <div class="flex justify-between">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Category</h2>
-            <a href="add_category.php" class="my-6 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">Add Category</a>
+            <a href="add_sub_category_2.php" class="my-6 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">Add Sub Category</a>
         </div>
 
         <div class="w-full m-auto overflow-hidden rounded-lg shadow-xs">
@@ -38,7 +38,7 @@
                         <?php foreach ($main_categories as $main_category) { ?>
 
                         <tr class="text-gray-700 dark:text-gray-400">
-                          <td class="px-4 py-3"><a href='edit_category.php?id=<?php echo $main_category["id"] ?>'><?php echo $main_category['name'] ?></a></td>                          
+                          <td class="px-4 py-3"><a href='edit_sub_category_2.php?id=<?php echo $main_category["id"] ?>'><?php echo $main_category['name'] ?></a></td>                          
                           <td class="px-4 py-3"><?php echo $main_category['description'] ?></td>                          
                           <td class="px-4 py-3"><?php echo $main_category['status'] ?></td>                          
                         </tr>
@@ -131,6 +131,7 @@
         });
     });
 </script>
+
 <?php include 'inc/footer.php';?>
 
 

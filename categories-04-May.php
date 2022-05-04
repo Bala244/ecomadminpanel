@@ -7,9 +7,41 @@
     require_once "config/config.php";
     require_once "inc/auth_validate.php";
 
-    $db = getDbInstance();
-    $main_categories = $db->get('category');
-    // print_r($main_categories);exit;
+
+    $result = mysqli_query($conn, "SELECT * FROM category ORDER BY parent_id, id");
+
+
+    $category = array(
+        'categories' => array(),
+        'parent_cats' => array()
+    );
+
+
+    while ($row = mysqli_fetch_assoc($result)) {
+
+        $category['categories'][$row['id']] = $row;
+
+        $category['parent_cats'][$row['parent_id']][] = $row['id'];
+    }
+
+    function buildCategory($parent, $category, $hiddenClass) {
+        $html = "";
+        if (isset($category['parent_cats'][$parent])) {
+            $html .= "<ul class='".$hiddenClass."'>\n";
+            foreach ($category['parent_cats'][$parent] as $cat_id) {
+                if (!isset($category['parent_cats'][$cat_id])) {
+                    $html .= "<li class=''><div class='flex py-1'><span class='text-sm span1'><a href='edit_category.php?id=". $category['categories'][$cat_id]['id'] ."'>" . $category['categories'][$cat_id]['name'] . "</a></span><span class='text-sm span-custom1'>10</span><span class='text-sm span-custom2'>".$category['categories'][$cat_id]['status'] . "</span> </div></li> \n";
+                }
+                if (isset($category['parent_cats'][$cat_id])) {
+                    $html .= "<li class=''><div class='flex py-1'><span class='custom-plus toggle-click' style='position: absolute;left: -14px;'>+</span><span class='text-sm span1'><a href='edit_category.php?id=". $category['categories'][$cat_id]['id'] ."'>" . $category['categories'][$cat_id]['name'] . "</a></span><span class='text-sm span-custom1'>10</span><span class='text-sm span-custom2'>".$category['categories'][$cat_id]['status'] . "</span></div> \n";
+                    $html .= buildCategory($cat_id, $category, 'main-ul custom-hidden');
+                    $html .= "</li> \n";
+                }
+            }
+            $html .= "</ul> \n";
+        }
+        return $html;
+    }
 
     include "inc/head.php";
     include "inc/header.php";
@@ -20,7 +52,7 @@
     <div class="container grid px-6 mx-auto">
         <div class="flex justify-between">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Category</h2>
-            <a href="add_category.php" class="my-6 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">Add Category</a>
+            <a href="add_category.php" class="my-6 px-12 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">Add Category</a>
         </div>
 
         <div class="w-full m-auto overflow-hidden rounded-lg shadow-xs">
@@ -29,23 +61,15 @@
                     <thead>
                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3">Name</th>
-                            <th class="px-4 py-3 w-56">Description</th>
-                            <th class="px-4 py-3 w-56">Status</th>
+                            <th class="px-4 py-3 w-2/12">No Of Products</th>
+                            <th class="px-4 py-3 w-2/12">Status</th>
                             <!-- <th class="px-4 py-3 w-2/12">Actions</th> -->
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        <?php foreach ($main_categories as $main_category) { ?>
-
-                        <tr class="text-gray-700 dark:text-gray-400">
-                          <td class="px-4 py-3"><a href='edit_category.php?id=<?php echo $main_category["id"] ?>'><?php echo $main_category['name'] ?></a></td>                          
-                          <td class="px-4 py-3"><?php echo $main_category['description'] ?></td>                          
-                          <td class="px-4 py-3"><?php echo $main_category['status'] ?></td>                          
-                        </tr>
-                        <?php } ?>
-
-                    </tbody>
                 </table>
+                <div class="treeview">
+                    <?php echo buildCategory(0, $category, ''); ?>
+                </div>
             </div>
             <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
                 <span class="flex items-center col-span-3">
@@ -132,5 +156,3 @@
     });
 </script>
 <?php include 'inc/footer.php';?>
-
-
