@@ -21,7 +21,7 @@
                     </li>
                     <li class="relative px-6 py-3">
                       <button class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" @click="togglePagesMenu" aria-haspopup="true">
-                            
+
                           <span class=""><i class="fa-solid fa-list mr-4"></i>Category</span>
                         </span>
                         <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -48,6 +48,13 @@
                           </li>
                         </ul>
                       </template>
+                    </li>
+                    <li class="relative px-6 py-3">
+
+                        <a href="products.php" class="nav-link inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
+                            <i class="fa-solid fa-list mr-4"></i>
+                            <span class="ml-4">Products</span>
+                        </a>
                     </li>
                 </ul>
             </div>
