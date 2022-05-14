@@ -70,7 +70,7 @@
 
           }
 
-          // echo '<pre> bnk';print_r($deleted_images);echo '</pre>';
+          // echo '<pre> bnk';print_r($deleted_images);echo '</pre>'; added
           
           $delete_query = "DELETE FROM product_images WHERE  id in (".$deleted_images.") ";
           // echo '<pre> bnk';print_r($delete_query);echo '</pre>';exit;
