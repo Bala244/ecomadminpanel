@@ -17,6 +17,11 @@
         />
 
         <link href="./assets/fontawesome/css/all.css" rel="stylesheet">
+<<<<<<< HEAD
+=======
+        <link href="./assets/drag-drop/dist/image-uploader.min.css" rel="stylesheet">
+
+>>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
 
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer
@@ -24,5 +29,9 @@
         <script src="./assets/js/charts-lines.js" defer></script>
         <script src="./assets/js/charts-pie.js" defer></script>
         <script src="./assets/js/jquery.min.js"></script>
+<<<<<<< HEAD
+=======
+        <script src="./assets/drag-drop/dist/image-uploader.min.js"></script>
+>>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
     </head>
 <head>

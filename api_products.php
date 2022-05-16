@@ -28,7 +28,34 @@
     $object = json_decode($body, true);
     $response = array();
 
+    $category_id = isset($_POST['category_id']) && $_POST['category_id'] != '' ? $_POST['category_id'] : '';
+    $sub_category_id_1 = isset($_POST['sub_category_id_1']) && $_POST['sub_category_id_1'] != '' ? $_POST['sub_category_id_1'] : '';
+    $sub_category_id_2 = isset($_POST['sub_category_id_2']) && $_POST['sub_category_id_2'] != '' ? $_POST['sub_category_id_2'] : '';
+    $sub_category_id_3 = isset($_POST['sub_category_id_3']) && $_POST['sub_category_id_3'] != '' ? $_POST['sub_category_id_3'] : '';
+    $sub_category_id_4 = isset($_POST['sub_category_id_4']) && $_POST['sub_category_id_4'] != '' ? $_POST['sub_category_id_4'] : '';
+    $sub_category_id_5 = isset($_POST['sub_category_id_5']) && $_POST['sub_category_id_5'] != '' ? $_POST['sub_category_id_5'] : '';
+
+
+
     $db = getDbInstance();
+    if($category_id != ''){
+        $db->where('category_id', $category_id);
+    }
+    if($sub_category_id_1 != ''){
+        $db->where('sub_category_id_1', $sub_category_id_1);
+    }
+    if($sub_category_id_2 != ''){
+        $db->where('sub_category_id_2', $sub_category_id_2);
+    }
+    if($sub_category_id_3 != ''){
+        $db->where('sub_category_id_3', $sub_category_id_3);
+    }
+    if($sub_category_id_4 != ''){
+        $db->where('sub_category_id_4', $sub_category_id_4);
+    }
+    if($sub_category_id_5 != ''){
+        $db->where('sub_category_id_5', $sub_category_id_5);
+    }
     $products = $db->get('products');
 
     if(count($products) > 0){

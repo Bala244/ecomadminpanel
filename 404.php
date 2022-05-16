@@ -14,7 +14,12 @@
       defer
     ></script>
     <script src="../assets/js/init-alpine.js"></script>
+<<<<<<< HEAD
   </head>
+=======
+  </head> 
+  <!-- new -->
+>>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
   <body>
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
