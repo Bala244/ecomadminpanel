@@ -17,7 +17,7 @@
 
     // print_r($update_data);exit;
 
-    
+
 
     if ($_POST) {
 
@@ -26,15 +26,13 @@
       $data['description'] = $_POST['description'];
       $data['parent_id'] = 0;
       $data['status'] = $_POST['status'];
-      $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
+      $data['updated_by'] = $_SESSION['user_id'];
 
       $db = getDbInstance();
-      // print_r($data);exit;
-
       $db->where('id',$get_id);
       $resonce = $db->update('category',$data);
-      header('location: categories.php'); 
+      header('location: categories.php');exit;
     }
 
 
@@ -70,10 +68,10 @@
           <select name="status" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option value="1" <?php echo ( $update_data['status'] == '1' ) ? 'selected' : '' ?>>Active</option>
             <option value="0" <?php echo ( $update_data['status'] == '0' ) ? 'selected' : '' ?>>Inactive</option>
-            
+
           </select>
         </label>
-        
+
         <div class="flex mt-6 mb-6 justify-end">
             <div>
               <button class="mr-4 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='categories.php'">
@@ -95,7 +93,7 @@
 <?php include 'inc/footer-links.php';?>
 <script>
     $(document).ready(function(){
-        
+
         var par_id = $('.parent_id').val();
 
         $('.highlighter-none[data-id="'+par_id+'"]').addClass('text-zinc-50 px-3 bg-purple-600');
@@ -131,4 +129,3 @@
     });
 </script>
 <?php include 'inc/footer.php';?>
-

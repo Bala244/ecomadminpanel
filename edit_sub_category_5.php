@@ -13,7 +13,7 @@
     $get_id = filter_input(INPUT_GET, 'id');
     $db = getDbInstance();
     $db->where('id', $get_id);
-    $update_data = $db->getOne('sub_category_2');
+    $update_data = $db->getOne('sub_category_5');
 
 
     $db = getDbInstance();
@@ -23,6 +23,18 @@
     $db->where('category_id', $update_data['category_id']);
     $sub_1_categories = $db->get('sub_category_1');
 
+    $db = getDbInstance();
+    $db->where('sub_category_id_1', $update_data['sub_category_id_1']);
+    $sub_2_categories = $db->get('sub_category_2');
+
+    $db = getDbInstance();
+    $db->where('sub_category_id_2', $update_data['sub_category_id_2']);
+    $sub_3_categories = $db->get('sub_category_3');
+
+    $db = getDbInstance();
+    $db->where('sub_category_id_3', $update_data['sub_category_id_3']);
+    $sub_4_categories = $db->get('sub_category_4');
+
     if ($_POST) {
 
       // print_r($_POST);exit;
@@ -30,20 +42,22 @@
       $data['description'] = $_POST['description'];
       $data['category_id'] = $_POST['category_id'];
       $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
+      $data['sub_category_id_2'] = $_POST['sub_category_id_2'];
+      $data['sub_category_id_3'] = $_POST['sub_category_id_3'];
+      $data['sub_category_id_4'] = $_POST['sub_category_id_4'];
       $data['status'] = $_POST['status'];
       $data['updated_at'] = $currdate;
       $data['updated_by'] = $_SESSION['user_id'];
 
 
       $db->where('id',$get_id);
-      $resonce = $db->update('sub_category_2',$data);
-      header('location: sub_category_2.php');exit;
+      $resonce = $db->update('sub_category_5',$data);
+      header('location: sub_category_5.php');exit;
     }
 
 
     include "inc/head.php";
     include "inc/header.php";
-
 ?>
 
 
@@ -51,7 +65,7 @@
 <main class="h-full pb-16 overflow-y-auto">
   <div class="container grid px-6 mx-auto">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-      Edit Sub Category 2
+      Edit Sub Category 5
     </h2>
     <form action="" method="post">
       <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -81,12 +95,51 @@
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">
-            Sub Category
+            Sub Category 1
           </span>
           <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option>Choose a Value</option>
             <?php foreach ($sub_1_categories as $sub_1_category) { ?>
               <option value="<?php echo $sub_1_category['id'] ?>" <?php echo ( $sub_1_category['id'] == $update_data['sub_category_id_1'] ) ? 'selected' : '' ?>><?php echo $sub_1_category['name'] ?></option>
+            <?php } ?>
+
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 2
+          </span>
+          <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($sub_2_categories as $sub_2_category) { ?>
+              <option value="<?php echo $sub_2_category['id'] ?>" <?php echo ( $sub_2_category['id'] == $update_data['sub_category_id_2'] ) ? 'selected' : '' ?>><?php echo $sub_2_category['name'] ?></option>
+            <?php } ?>
+
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 3
+          </span>
+          <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($sub_3_categories as $sub_3_category) { ?>
+              <option value="<?php echo $sub_3_category['id'] ?>" <?php echo ( $sub_3_category['id'] == $update_data['sub_category_id_3'] ) ? 'selected' : '' ?>><?php echo $sub_3_category['name'] ?></option>
+            <?php } ?>
+
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 4
+          </span>
+          <select name="sub_category_id_4" class="sub_category_5 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+            <option>Choose a Value</option>
+            <?php foreach ($sub_4_categories as $sub_4_category) { ?>
+              <option value="<?php echo $sub_4_category['id'] ?>" <?php echo ( $sub_4_category['id'] == $update_data['sub_category_id_4'] ) ? 'selected' : '' ?>><?php echo $sub_4_category['name'] ?></option>
             <?php } ?>
 
           </select>
@@ -174,7 +227,46 @@
 
           });
         });
+    });
+</script>
+<script>
+    $(document).ready(function(){
 
+        $('.sub_category_2').change(function(){
+          $.ajax({
+            url: "ajax_data.php?id="+this.value+"&cate_id=sub_category_2",
+
+            success: function(result){
+              $('.sub_category_3').html('');
+              $('.sub_category_3').append(result);
+            }
+
+          });
+        });
+
+        $('.sub_category_3').change(function(){
+          $.ajax({
+            url: "ajax_data.php?id="+this.value+"&cate_id=sub_category_3",
+
+            success: function(result){
+              $('.sub_category_4').html('');
+              $('.sub_category_4').append(result);
+            }
+
+          });
+        });
+
+        $('.sub_category_4').change(function(){
+          $.ajax({
+            url: "ajax_data.php?id="+this.value+"&cate_id=sub_category_4",
+
+            success: function(result){
+              $('.sub_category_5').html('');
+              $('.sub_category_5').append(result);
+            }
+
+          });
+        });
     });
 </script>
 <?php include 'inc/footer.php';?>

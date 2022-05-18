@@ -1,10 +1,7 @@
 <?php
-<<<<<<< HEAD
-=======
     ini_set("display_errors","1");
     error_reporting(E_ALL);
 
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
     session_start();
 
     header("X-XSS-Protection: 1; mode=block");
@@ -40,26 +37,10 @@
         $data['created_at'] = $created_at;
         $data['created_by'] = $_SESSION['user_id'];
 
-<<<<<<< HEAD
         $db = getDbInstance();
         $last_id = $db->insert('products',$data);
-        if($last_id){
-
-            if(isset($_FILES['product_images']) && $_FILES['product_images']['name'][0] != ''){
-                for($i=0;$i<count($_FILES['product_images']['name']);$i++){
-                    $filename = $_FILES['product_images']['name'][$i];
-                    $filepath = 'uploads/products/'.$filename;
-
-                    if(move_uploaded_file($_FILES['product_images']['tmp_name'][$i], $filepath)){
-=======
-        $db = getDbInstance();        
-        $last_id = $db->insert('products',$data);
-        // echo '<pre>';print_r($db->getLastError());echo '</pre>';exit;
-
-
 
         if($last_id){
-        // echo '<pre> bnk';print_r($_FILES['images']['name'][0]);echo '</pre>';exit;
 
             if(isset($_FILES['images']) && $_FILES['images']['name'][0] != ''){
                 for($i=0;$i<count($_FILES['images']['name']);$i++){
@@ -67,7 +48,6 @@
                     $filepath = 'uploads/products/'.$filename;
 
                     if(move_uploaded_file($_FILES['images']['tmp_name'][$i], $filepath)){
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
                         $data_to_db = array();
                         $data_to_db['product_id'] = $last_id;
                         $data_to_db['filepath'] = $filepath;
@@ -75,15 +55,11 @@
                         $data_to_db['created_by'] = $_SESSION['user_id'];
 
                         $db =  getDbInstance();
-<<<<<<< HEAD
-                        $insert_id = $db->insert('product_images', $data_to_db);
-=======
                         // echo '<pre>';print_r($data_to_db);echo '</pre>';exit;
 
                         $insert_id = $db->insert('product_images', $data_to_db);
 
 
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
                     }else{
                         $file_error++;
                     }
@@ -192,13 +168,9 @@
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Product Images</span>
-<<<<<<< HEAD
-          <input type="file" name="product_images[]" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" autocomplete="Off" multiple>
-=======
          <!--  <input type="file" name="images[]" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" autocomplete="Off" multiple> -->
           <div class="input-images"></div>
 
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         </label>
 
         <label class="block mt-4 text-sm">
@@ -297,8 +269,6 @@
         });
     });
 </script>
-<<<<<<< HEAD
-=======
 <script>
   $('.input-images').imageUploader({
     imagesInputName: 'images',
@@ -306,5 +276,4 @@
     label: 'Drag & Drop files here or click to browse'
   });
 </script>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
 <?php include 'inc/footer.php';?>

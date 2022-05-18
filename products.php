@@ -13,11 +13,8 @@
 
     include "inc/head.php";
     include "inc/header.php";
-<<<<<<< HEAD
-=======
         echo '<link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.5/dist/flowbite.min.css" />
     <script src="https://unpkg.com/flowbite@1.4.5/dist/flowbite.js"></script>';
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
 ?>
 
 <main class="h-full pb-16 overflow-y-auto">
@@ -60,10 +57,6 @@
                                 <td class="px-4 py-3"><?php echo $product['sales_type']; ?></td>
                                 <td class="px-4 py-3"><?php echo $status; ?></td>
                                 <td class="px-4 py-3">
-<<<<<<< HEAD
-                                </td>
-                            </tr>
-=======
                                      <div class="flex items-center space-x-4 text-sm">
                                       <!-- <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit"> -->
                                       <a href="edit_product.php?id=<?php echo $product['id'];?>" title="Edit">
@@ -102,7 +95,6 @@
                                     </div>
                                 </div>
                             </div>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
                     <?php
                             $i++;
                         }
@@ -173,11 +165,8 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-=======
     <div modal-backdrop="" class="modal-backdrop bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40 hidden"></div>
     
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
 </main>
 
 <?php include 'inc/footer-links.php';?>
@@ -201,8 +190,6 @@
     });
 </script>
 <?php include 'inc/footer.php';?>
-<<<<<<< HEAD
-=======
 <script>
     $(document).ready(function(){
         $('.close-modal').click(function(){
@@ -224,4 +211,3 @@
         });
     });
 </script>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a

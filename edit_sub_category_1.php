@@ -15,8 +15,6 @@
     $db->where('id', $get_id);
     $update_data = $db->getOne('sub_category_1');
 
-    // print_r($update_data);exit;
-
 
     $db = getDbInstance();
     $main_categories = $db->get('category');
@@ -28,19 +26,13 @@
       $data['description'] = $_POST['description'];
       $data['category_id'] = $_POST['category_id'];
       $data['status'] = $_POST['status'];
-      $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
+      $data['updated_by'] = $_SESSION['user_id'];
 
-      $db = getDbInstance();
-      // print_r($data);exit;
-      $db->where('name', $data['name']);
-      $category = $db->get('sub_category_1');
-
-      // print_r(count($category));exit;
 
       $db->where('id',$get_id);
       $resonce = $db->update('sub_category_1',$data);
-      header('location: sub_category_1.php');
+      header('location: sub_category_1.php');exit;
 
     }
 

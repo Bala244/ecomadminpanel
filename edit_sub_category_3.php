@@ -38,15 +38,9 @@
       $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
       $data['sub_category_id_2'] = $_POST['sub_category_id_2'];
       $data['status'] = $_POST['status'];
-      $data['created_at'] = $currdate;
       $data['updated_at'] = $currdate;
+      $data['updated_by'] = $_SESSION['user_id'];
 
-      $db = getDbInstance();
-      // print_r($data);exit;
-      $db->where('name', $data['name']);
-      $category = $db->get('sub_category_3');
-
-      // print_r(count($category));exit;
 
       $db->where('id',$get_id);
       $resonce = $db->update('sub_category_3',$data);
@@ -108,11 +102,7 @@
           <span class="text-gray-700 dark:text-gray-400">
             Sub Category 2
           </span>
-<<<<<<< HEAD
-          <select name="sub_category_id_1" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-=======
           <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
             <option>Choose a Value</option>
             <?php foreach ($sub_2_categories as $sub_2_category) { ?>
               <option value="<?php echo $sub_2_category['id'] ?>" <?php echo ( $sub_2_category['id'] == $update_data['sub_category_id_2'] ) ? 'selected' : '' ?>><?php echo $sub_2_category['name'] ?></option>

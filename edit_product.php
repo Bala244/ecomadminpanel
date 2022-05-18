@@ -5,24 +5,12 @@
     header("X-Frame-Options: SAMEORIGIN");
 
     date_default_timezone_set('Asia/Kolkata');
-<<<<<<< HEAD
-    $currdate = date('Y-m-d H:i:s');
-=======
     $created_at = date('Y-m-d H:i:s');
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
 
     require_once "config/config.php";
     require_once "inc/auth_validate.php";
 
 
-<<<<<<< HEAD
-    $db = getDbInstance();
-    $main_categories = $db->get('category');
-
-    if ($_POST) {
-
-        // echo '<pre>';print_r($_FILES);echo '</pre>';exit;
-=======
     $id = filter_input(INPUT_GET, 'id');
 
     $db = getDbInstance();
@@ -54,7 +42,6 @@
 
         $file_error = 0;
 
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         $data['name'] = $_POST['name'];
         $data['description'] = $_POST['description'];
         $data['category_id'] = $_POST['category_id'];
@@ -66,14 +53,6 @@
         $data['price'] = $_POST['price'];
         $data['unique_code'] = $_POST['unique_code'];
         $data['status'] = $_POST['status'];
-<<<<<<< HEAD
-        $data['created_at'] = $currdate;
-        $data['created_by'] = $_SESSION['user_id'];
-
-        $db = getDbInstance();
-        $last_id = $db->insert('products',$data);
-        if($last_id){
-=======
         $data['created_at'] = $created_at;
         $data['created_by'] = $_SESSION['user_id'];
 
@@ -126,7 +105,6 @@
                 $_SESSION['failure'] = 'Product images not uploaded completely';
             }
 
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
             $_SESSION['success'] = 'Product Created Successfully';
             header("Location:products.php");exit;
         }else{
@@ -135,10 +113,6 @@
         }
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
     include "inc/head.php";
     include "inc/header.php";
 ?>
@@ -146,35 +120,21 @@
 
 
 <main class="h-full pb-16 overflow-y-auto">
-<<<<<<< HEAD
-  <div class="container grid px-6 mx-auto">
-    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-      Add Category
-=======
   <input type="hidden" name="" class="product_id" value="<?php echo $id ?>">
   <div class="container grid px-6 mx-auto">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
       Edit Product
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
     </h2>
     <form action="" method="post" enctype="multipart/form-data">
       <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Name</span>
-<<<<<<< HEAD
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="name" placeholder="Name" required>
-=======
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="name" placeholder="Name" value="<?php echo $product['name']; ?>" required>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         </label>
 
         <label class="block mt-4 text-sm">
           <span class="text-gray-700 dark:text-gray-400">Description</span>
-<<<<<<< HEAD
-          <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Product Description" name="description"></textarea>
-=======
           <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Product Description" name="description"><?php echo $product['description']; ?></textarea>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         </label>
 
         <label class="block mt-4 text-sm">
@@ -184,11 +144,7 @@
           <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option>Choose a Value</option>
             <?php foreach ($main_categories as $main_category) { ?>
-<<<<<<< HEAD
-              <option value="<?php echo $main_category['id'] ?>"><?php echo $main_category['name'] ?></option>
-=======
               <option value="<?php echo $main_category['id'] ?>" <?php echo ( $product['category_id'] ==  $main_category['id'] ) ? 'selected' : '' ?> ><?php echo $main_category['name'] ?></option>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
             <?php } ?>
 
           </select>
@@ -200,13 +156,10 @@
           </span>
           <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option>Choose a Value</option>
-<<<<<<< HEAD
-=======
             <?php foreach ($sub_1_categories as $sub_1_category) { ?>
               <option value="<?php echo $sub_1_category['id'] ?>" <?php echo ( $sub_1_category['id'] == $product['sub_category_id_1'] ) ? 'selected' : '' ?>><?php echo $sub_1_category['name'] ?></option>
             <?php } ?>
 
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
           </select>
         </label>
 
@@ -216,13 +169,10 @@
           </span>
           <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option>Choose a Value</option>
-<<<<<<< HEAD
-=======
             <?php foreach ($sub_2_categories as $sub_2_category) { ?>
               <option value="<?php echo $sub_2_category['id'] ?>" <?php echo ( $sub_2_category['id'] == $product['sub_category_id_2'] ) ? 'selected' : '' ?>><?php echo $sub_2_category['name'] ?></option>
             <?php } ?>
 
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
           </select>
         </label>
 
@@ -232,64 +182,40 @@
           </span>
           <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
             <option>Choose a Value</option>
-<<<<<<< HEAD
-=======
              <?php foreach ($sub_3_categories as $sub_3_category) {  ?>
               <option value="<?php echo $sub_3_category['id'] ?>" <?php echo ( $sub_3_category['id'] == $product['sub_category_id_3'] ) ? 'selected' : '' ?>><?php echo $sub_3_category['name'] ?></option>
             <?php } ?>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
           </select>
         </label>
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Quantity</span>
-<<<<<<< HEAD
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="quantity" placeholder="Quantity" required>
-=======
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="quantity" placeholder="Quantity" value="<?php echo $product['quantity']; ?>" required>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         </label>
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Sales Type</span>
           <select name="sales_type" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option>Choose a Value</option>
-<<<<<<< HEAD
-            <option value="retail">Retail</option>
-            <option value="whole_sale">Whole Sale</option>
-=======
             <option value="retail" <?php echo ( $product['sales_type'] ==  'retail' ) ? 'selected' : '' ?>>Retail</option>
             <option value="whole_sale"<?php echo ( $product['sales_type'] ==  'whole_sale' ) ? 'selected' : '' ?>>Whole Sale</option>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
           </select>
         </label>
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Price</span>
-<<<<<<< HEAD
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="price" placeholder="Price" required>
-=======
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="price" placeholder="Price" required value="<?php echo $product['price']; ?>">
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         </label>
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Unique Code</span>
-<<<<<<< HEAD
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="unique_code" placeholder="Unique Code / SK Code / QR Code">
-=======
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="unique_code" placeholder="Unique Code / SKU Code / QR Code" value="<?php echo $product['unique_code']; ?>">
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         </label>
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Product Images</span>
-<<<<<<< HEAD
-          <input type="file" name="product_images[]" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" autocomplete="Off" multiple>
-=======
           <div class="input-images"></div>
           
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
         </label>
 
         <label class="block mt-4 text-sm">
@@ -298,13 +224,8 @@
           </span>
           <select name="status" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option>Choose a Value</option>
-<<<<<<< HEAD
-            <option value="1">Active</option>
-            <option value="0">Inactive</option>
-=======
             <option value="1" <?php echo ( $product['status'] ==  '1' ) ? 'selected' : '' ?>>Active</option>
             <option value="0" <?php echo ( $product['status'] ==  '0' ) ? 'selected' : '' ?>>Inactive</option>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
           </select>
         </label>
 
@@ -363,10 +284,7 @@
             success: function(result){
               $('.sub_category_2').html('');
               $('.sub_category_2').append(result);
-<<<<<<< HEAD
-=======
               $('.sub_category_3, .sub_category_4').html('<option>Choose a Value</option>');
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
             }
 
           });
@@ -379,10 +297,7 @@
             success: function(result){
               $('.sub_category_3').html('');
               $('.sub_category_3').append(result);
-<<<<<<< HEAD
-=======
               $('.sub_category_4').html('<option>Choose a Value</option>');
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
             }
 
           });
@@ -401,8 +316,6 @@
         });
     });
 </script>
-<<<<<<< HEAD
-=======
 <script>
   var product_id = $('.product_id').val();
   var images = [];
@@ -430,5 +343,4 @@
     },200);
 
 </script>
->>>>>>> f4b4fd0dea83f3f17bbb225081cb827d2bdd684a
 <?php include 'inc/footer.php';?>

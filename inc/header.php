@@ -46,6 +46,12 @@
                           <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                             <a class="w-full" href="sub_category_3.php">Sub Category 3</a>
                           </li>
+                          <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="sub_category_4.php">Sub Category 4</a>
+                          </li>
+                          <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="sub_category_5.php">Sub Category 5</a>
+                          </li>
                         </ul>
                       </template>
                     </li>
