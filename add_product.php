@@ -19,7 +19,7 @@
 
     if ($_POST) {
 
-        // echo '<pre>';print_r($_FILES);echo '</pre>';exit;
+        // echo '<pre>';print_r($_POST);echo '</pre>';exit;
 
         $file_error = 0;
 
@@ -29,10 +29,25 @@
         $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
         $data['sub_category_id_2'] = $_POST['sub_category_id_2'];
         $data['sub_category_id_3'] = $_POST['sub_category_id_3'];
+        $data['sub_category_id_4'] = $_POST['sub_category_id_4'];
+        $data['sub_category_id_5'] = $_POST['sub_category_id_5'];
         $data['quantity'] = $_POST['quantity'];
-        $data['sales_type'] = $_POST['sales_type'];
-        $data['price'] = $_POST['price'];
-        $data['unique_code'] = $_POST['unique_code'];
+        $data['is_retail'] = 0;
+        $data['is_whole_sale'] = 0;
+        $data['is_ecommerce'] = 0;
+        if($_POST['is_retail'] == 'on'){
+            $data['is_retail'] = 1;
+        }
+        if($_POST['is_whole_sale'] == 'on'){
+            $data['is_whole_sale'] = 1;
+        }
+        if($_POST['is_ecommerce'] == 'on'){
+            $data['is_ecommerce'] = 1;
+        }
+        $data['retail_price'] = $_POST['retail_price'];
+        $data['whole_sale_price'] = $_POST['whole_sale_price'];
+        $data['ecommerce_price'] = $_POST['ecommerce_price'];
+        $data['sku_code'] = $_POST['sku_code'];
         $data['status'] = $_POST['status'];
         $data['created_at'] = $created_at;
         $data['created_by'] = $_SESSION['user_id'];
@@ -45,9 +60,10 @@
             if(isset($_FILES['images']) && $_FILES['images']['name'][0] != ''){
                 for($i=0;$i<count($_FILES['images']['name']);$i++){
                     $filename = $_FILES['images']['name'][$i];
-                    $filepath = 'uploads/products/'.$filename;
+                    $upload_path = 'uploads/products/'.$filename;
+                    $filepath = 'http://packurs.com/admin/uploads/products/'.$filename;
 
-                    if(move_uploaded_file($_FILES['images']['tmp_name'][$i], $filepath)){
+                    if(move_uploaded_file($_FILES['images']['tmp_name'][$i], $upload_path)){
                         $data_to_db = array();
                         $data_to_db['product_id'] = $last_id;
                         $data_to_db['filepath'] = $filepath;
@@ -88,7 +104,7 @@
 <main class="h-full pb-16 overflow-y-auto">
   <div class="container grid px-6 mx-auto">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-      Add Category
+      Add Product
     </h2>
     <form action="" method="post" enctype="multipart/form-data">
       <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -142,6 +158,24 @@
           </select>
         </label>
 
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 4
+          </span>
+          <select name="sub_category_id_4" class="sub_category_5 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option>Choose a Value</option>
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 5
+          </span>
+          <select name="sub_category_id_5" class="sub_category_6 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option>Choose a Value</option>
+          </select>
+        </label>
+
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Quantity</span>
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="quantity" placeholder="Quantity" required>
@@ -157,13 +191,34 @@
         </label>
 
         <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400">Price</span>
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="price" placeholder="Price" required>
+            <input type="checkbox" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_retail">
+            <span class="text-gray-700 dark:text-gray-400">Retail</span>
+
+            <input type="checkbox" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_whole_sale">
+            <span class="text-gray-700 dark:text-gray-400">Whole Sale</span>
+
+            <input type="checkbox" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_ecommerce">
+            <span class="text-gray-700 dark:text-gray-400">Ecommerce</span>
         </label>
 
         <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400">Unique Code</span>
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="unique_code" placeholder="Unique Code / SK Code / QR Code">
+          <span class="text-gray-700 dark:text-gray-400">Retail Price</span>
+          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="retail_price" placeholder="Retail Price">
+        </label>
+
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">Whole Sale Price</span>
+          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="whole_sale_price" placeholder="Whole Sale Price">
+        </label>
+
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">Ecommerce Price</span>
+          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="ecommerce_price" placeholder="Ecommerce Price">
+        </label>
+
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">SKU Code</span>
+          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="sku_code" placeholder="SKU Code">
         </label>
 
         <label class="block text-sm">
@@ -179,14 +234,14 @@
           </span>
           <select name="status" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option>Choose a Value</option>
-            <option value="1">Active</option>
+            <option value="1" selected>Active</option>
             <option value="0">Inactive</option>
           </select>
         </label>
 
         <div class="flex mt-6 mb-6 justify-end">
             <div>
-              <button class="mr-4 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='categories.php'">
+              <button class="mr-4 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='products.php'">
                 Cancel
               </button>
             </div>
@@ -263,6 +318,30 @@
             success: function(result){
               $('.sub_category_4').html('');
               $('.sub_category_4').append(result);
+            }
+
+          });
+        });
+
+        $('.sub_category_4').change(function(){
+          $.ajax({
+            url: "ajax_data.php?id="+this.value+"&cate_id=sub_category_4",
+
+            success: function(result){
+              $('.sub_category_5').html('');
+              $('.sub_category_5').append(result);
+            }
+
+          });
+        });
+
+        $('.sub_category_5').change(function(){
+          $.ajax({
+            url: "ajax_data.php?id="+this.value+"&cate_id=sub_category_5",
+
+            success: function(result){
+              $('.sub_category_6').html('');
+              $('.sub_category_6').append(result);
             }
 
           });

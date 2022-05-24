@@ -28,6 +28,8 @@
     $object = json_decode($body, true);
     $response = array();
 
+    $name = isset($object['name']) && $object['name'] != '' ? $object['name'] : '';
+    $sku_code = isset($object['sku_code']) && $object['sku_code'] != '' ? $object['sku_code'] : '';
     $category_id = isset($object['category_id']) && $object['category_id'] != '' ? $object['category_id'] : '';
     $sub_category_id_1 = isset($object['sub_category_id_1']) && $object['sub_category_id_1'] != '' ? $object['sub_category_id_1'] : '';
     $sub_category_id_2 = isset($object['sub_category_id_2']) && $object['sub_category_id_2'] != '' ? $object['sub_category_id_2'] : '';
@@ -38,6 +40,12 @@
 
 
     $db = getDbInstance();
+    if($name != ''){
+        $db->where('name', '%'.$name.'%', 'LIKE');
+    }
+    if($sku_code != ''){
+        $db->where('sku_code', $sku_code);
+    }
     if($category_id != ''){
         $db->where('category_id', $category_id);
     }
@@ -56,7 +64,7 @@
     if($sub_category_id_5 != ''){
         $db->where('sub_category_id_5', $sub_category_id_5);
     }
-    
+
     $products = $db->get('products');
 
     if(count($products) > 0){
@@ -103,7 +111,8 @@
 
             if(count($product_image_details) > 0){
                 foreach($product_image_details as $data){
-                    $product_images[] = "http://packurs.com/admin/".$data['filepath'];
+                    // $product_images[] = "http://packurs.com/admin/".$data['filepath'];
+                    $product_images[] = $data['filepath'];
                 }
             }
             // echo '<pre>';print_r($product_images);echo '</pre>';exit;

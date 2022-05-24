@@ -56,10 +56,15 @@
                       </template>
                     </li>
                     <li class="relative px-6 py-3">
-
                         <a href="products.php" class="nav-link inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
                             <i class="fa-solid fa-list mr-4"></i>
                             <span class="ml-4">Products</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <a href="upload_products.php" class="nav-link inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
+                            <i class="fa-solid fa-list mr-4"></i>
+                            <span class="ml-4">Upload Products</span>
                         </a>
                     </li>
                 </ul>
