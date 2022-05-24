@@ -11,17 +11,17 @@
     require_once "inc/auth_validate.php";
     $result = mysqli_query($conn, "SELECT * FROM category WHERE status=1 ORDER BY parent_id");
 
-   
+
     $category = array(
         'categories' => array(),
         'parent_cats' => array()
     );
 
-    
+
     while ($row = mysqli_fetch_assoc($result)) {
-        
+
         $category['categories'][$row['id']] = $row;
-        
+
         $category['parent_cats'][$row['parent_id']][] = $row['id'];
     }
 
@@ -43,30 +43,22 @@
         }
         return $html;
     }
-    
+
 
     if ($_POST) {
 
-      // print_r($_POST);exit;
-      $data['name'] = $_POST['name'];
-      $data['description'] = $_POST['description'];
-      $data['parent_id'] = 0;
-      $data['status'] = $_POST['status'];
-      $data['created_at'] = $currdate;
-      $data['updated_at'] = $currdate;
+        // print_r($_POST);exit;
+        $data['name'] = $_POST['name'];
+        $data['description'] = $_POST['description'];
+        $data['parent_id'] = 0;
+        $data['status'] = $_POST['status'];
+        $data['created_at'] = $currdate;
+        $data['created_by'] = $_SESSION['user_id'];
 
-      $db = getDbInstance();
-      // print_r($data);exit;
-      $db->where('name', $data['name']);
-      $db->where('parent_id', $data['parent_id']);
-      $category = $db->get('category');
-      
-      // print_r(count($category));exit;
+        $db = getDbInstance();
 
-      if (count($category) == 0) {
         $resonce = $db->insert('category',$data);
-        header('location: categories.php'); 
-      }
+        header('location: categories.php');exit;
     }
 
 
@@ -75,11 +67,11 @@
 ?>
 
 
- 
+
 <main class="h-full pb-16 overflow-y-auto">
   <div class="container grid px-6 mx-auto">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-      Add Category 
+      Add Category
     </h2>
     <form action="" method="post">
       <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -107,7 +99,7 @@
           <div class="cate-div treeview">
             <?php echo buildCategory(0, $category, ''); ?>
           </div>
-          
+
         </label> -->
 
         <label class="block mt-4 text-sm">
@@ -117,10 +109,10 @@
           <select name="status" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
             <option value="1">Active</option>
             <option value="0">Inactive</option>
-            
+
           </select>
         </label>
-        
+
         <div class="flex mt-6 mb-6 justify-end">
             <div>
               <button class="mr-4 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='categories.php'">
@@ -171,4 +163,3 @@
     });
 </script>
 <?php include 'inc/footer.php';?>
-

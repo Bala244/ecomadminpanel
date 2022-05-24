@@ -17,7 +17,7 @@
         $db->where('sub_category_id_1', $get_id);
         $datas = $db->get($cate_id);
 
-        $option = '<option>Choose a Value</option>';
+        $option = '<option value="">Select Sub Category 2</option>';
 
         foreach ($datas as $data) {
             $option .= "<option value=".$data['id'].">".$data['name']."</option>";
@@ -27,7 +27,27 @@
         $db->where('sub_category_id_2', $get_id);
         $datas = $db->get($cate_id);
 
-        $option = '<option>Choose a Value</option>';
+        $option = '<option value="">Select Sub Category 3</option>';
+
+        foreach ($datas as $data) {
+            $option .= "<option value=".$data['id'].">".$data['name']."</option>";
+        }
+    }elseif ($cate_id == 'sub_category_4') {
+        $db = getDbInstance();
+        $db->where('sub_category_id_3', $get_id);
+        $datas = $db->get($cate_id);
+
+        $option = '<option value="">Select Sub Category 4</option>';
+
+        foreach ($datas as $data) {
+            $option .= "<option value=".$data['id'].">".$data['name']."</option>";
+        }
+    }elseif ($cate_id == 'sub_category_5') {
+        $db = getDbInstance();
+        $db->where('sub_category_id_4', $get_id);
+        $datas = $db->get($cate_id);
+
+        $option = '<option value="">Select Sub Category 5</option>';
 
         foreach ($datas as $data) {
             $option .= "<option value=".$data['id'].">".$data['name']."</option>";
@@ -37,7 +57,7 @@
         $db->where('category_id', $get_id);
         $datas = $db->get($cate_id);
 
-        $option = '<option>Choose a Value</option>';
+        $option = '<option value="">Select Sub Category 1</option>';
 
         foreach ($datas as $data) {
         	$option .= "<option value=".$data['id'].">".$data['name']."</option>";
