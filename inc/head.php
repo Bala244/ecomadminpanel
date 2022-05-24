@@ -8,7 +8,6 @@
         />
         <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
         <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-
         <link rel="stylesheet" href="./assets/css/custom.css" />
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer
         ></script>

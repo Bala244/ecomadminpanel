@@ -256,7 +256,6 @@
         </div>
     </div>
     <div modal-backdrop="" class="modal-backdrop bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40 hidden"></div>
-
 </main>
 
 <?php include 'inc/footer-links.php';?>
