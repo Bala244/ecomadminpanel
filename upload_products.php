@@ -22,15 +22,15 @@
 
         $name = $_POST['name'];
         $description = $_POST['description'];
-        $category_id = $_POST['category_id'];
-        $sub_category_id_1 = $_POST['sub_category_id_1'];
-        $sub_category_id_2 = $_POST['sub_category_id_2'];
-        $sub_category_id_3 = $_POST['sub_category_id_3'];
-        $sub_category_id_4 = $_POST['sub_category_id_4'];
-        $sub_category_id_5 = $_POST['sub_category_id_5'];
-        $retail_price = $_POST['retail_price'];
-        $whole_sale_price = $_POST['whole_sale_price'];
-        $ecommerce_price = $_POST['ecommerce_price'];
+        $category_id = isset($_POST['category_id']) && $_POST['category_id'] != '' ? $_POST['category_id'] : NULL;
+        $sub_category_id_1 = isset($_POST['sub_category_id_1']) && $_POST['sub_category_id_1'] != '' ? $_POST['sub_category_id_1'] : NULL;
+        $sub_category_id_2 = isset($_POST['sub_category_id_2']) && $_POST['sub_category_id_2'] != '' ? $_POST['sub_category_id_2'] : NULL;
+        $sub_category_id_3 = isset($_POST['sub_category_id_3']) && $_POST['sub_category_id_3'] != '' ? $_POST['sub_category_id_3'] : NULL;
+        $sub_category_id_4 = isset($_POST['sub_category_id_4']) && $_POST['sub_category_id_4'] != '' ? $_POST['sub_category_id_4'] : NULL;
+        $sub_category_id_5 = isset($_POST['sub_category_id_5']) && $_POST['sub_category_id_5'] != '' ? $_POST['sub_category_id_5'] : NULL;
+        $retail_price = isset($_POST['retail_price']) && $_POST['retail_price'] != '' ? $_POST['retail_price'] : 0;
+        $whole_sale_price = isset($_POST['whole_sale_price']) && $_POST['whole_sale_price'] != '' ? $_POST['whole_sale_price'] : 0;
+        $ecommerce_price = isset($_POST['ecommerce_price']) && $_POST['ecommerce_price'] != '' ? $_POST['ecommerce_price'] : 0;
 
         if ($_FILES["file"]["size"] > 0){
 
@@ -76,6 +76,13 @@
                         $data_to_insert['status'] = 1;
                         $data_to_insert['created_at'] = $created_at;
                         $data_to_insert['created_by'] = $_SESSION['user_id'];
+
+                        $response = checkskucode($data['sku_code']);
+
+                        if($response = 'exists'){
+                            $_SESSION['failure'] = 'SKU Code already Exists.';
+                            header("Location:products.php");exit;
+                        }
 
                         $db = getDbInstance();
                         $last_id = $db->insert('products',$data_to_insert);
@@ -139,7 +146,7 @@
             Category
           </span>
           <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Category</option>
             <?php foreach ($main_categories as $main_category) { ?>
               <option value="<?php echo $main_category['id'] ?>"><?php echo $main_category['name'] ?></option>
             <?php } ?>
@@ -152,7 +159,7 @@
             Sub Category 1
           </span>
           <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 1</option>
           </select>
         </label>
 
@@ -161,7 +168,7 @@
             Sub Category 2
           </span>
           <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 2</option>
           </select>
         </label>
 
@@ -170,7 +177,7 @@
             Sub Category 3
           </span>
           <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 3</option>
           </select>
         </label>
 
@@ -179,7 +186,7 @@
             Sub Category 4
           </span>
           <select name="sub_category_id_4" class="sub_category_5 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 4</option>
           </select>
         </label>
 
@@ -188,7 +195,7 @@
             Sub Category 5
           </span>
           <select name="sub_category_id_5" class="sub_category_6 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 5</option>
           </select>
         </label>
 
