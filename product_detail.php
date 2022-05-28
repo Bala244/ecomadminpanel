@@ -98,15 +98,20 @@
         <!-- Breadcrumbs -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center space-x-2 text-gray-400 text-sm">
-            <?php foreach ($breadArr as $bread) { 
-               if ($bread != '') { ?>
-            <a href="javascript::" class="hover:underline hover:text-gray-600"><?php echo $bread; ?></a>
+            
+            <a href="products.php" class="hover:underline hover:text-gray-600">Product</a>
             <span class="leading-none-span">
               <svg class="h-5 w-5 leading-none text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </span>
-          <?php }} ?>
+
+          <a href="javascript::" class="" style="cursor: text;"><?php echo $product['name'] ?></a>
+            <span class="leading-none-span">
+              <svg class="h-5 w-5 leading-none text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
           </div>
         </div>
         <!-- ./ Breadcrumbs -->
@@ -137,29 +142,41 @@
               <p class="text-sm <?php echo ($product['status'] == 1) ? 'text-green-500 active' : 'text-red-500 inactive' ?> font-semibold"><?php echo ($product['status'] == 1) ? 'Active' : 'InActive' ?></p>
 
               <h2 class="mb-2 leading-tight tracking-tight font-bold text-gray-800 text-2xl md:text-3xl dark:text-gray-100"><?php echo $product['name'] ?>.</h2>
-              <p class="text-gray-500 text-sm">SKU: <?php echo $product['sku_code']; ?></p>
+              <p class="text-gray-800 text-sm font-bold">SKU: <?php echo $product['sku_code']; ?></p>
+              <p class="mt-4 text-gray-500 text-sm font-bold <?php echo ($breadArr[0] != '') ? '' : 'hidden' ?>">Category: <?php echo $breadArr[0]; ?></p>
+              <p class="text-gray-500 text-sm font-bold <?php echo ($breadArr[1] != '') ? '' : 'hidden' ?>">Sub Category 1: <?php echo $breadArr[1]; ?></p>
+              <p class="text-gray-500 text-sm font-bold <?php echo ($breadArr[2] != '') ? '' : 'hidden' ?>">Sub Category 2: <?php echo $breadArr[2]; ?></p>
+              <p class="text-gray-500 text-sm font-bold <?php echo ($breadArr[3] != '') ? '' : 'hidden' ?>">Sub Category 3: <?php echo $breadArr[3]; ?></p>
+              <p class="text-gray-500 text-sm font-bold <?php echo ($breadArr[4] != '') ? '' : 'hidden' ?>">Sub Category 4: <?php echo $breadArr[4]; ?></p>
+              <p class="mb-5 text-gray-500 text-sm font-bold <?php echo ($breadArr[5] != '') ? '' : 'hidden' ?>">Sub Category 5: <?php echo $breadArr[5]; ?></p>
 
 
-              <div class="flex items-center space-x-4 my-4">
-                <div>
-                  <div class="rounded-lg bg-gray-100 flex py-2 px-3">
-                    <span class="text-indigo-400 mr-1 mt-1">Rs.</span>
-                    <span class="font-bold text-indigo-600 text-3xl"><?php echo $product['ecommerce_price'] ?></span>
-                  </div>
+              <div class="flex items-center justify-start w-full space-x-4 my-4">
+                <div class="relative flex rounded-lg <?php echo ($product['is_retail'] == 0 || $product['is_retail'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
+                  <div class="px-3 <?php echo ($product['is_retail'] == 0 || $product['is_retail'] == null) ? ' text-gray-400' : ' text-purple-400' ?> text-left left-0 pt-2 right-0 absolute block text-xs uppercase tracking-wide font-semibold">Retail</div>
+                  <div class=" appearance-none  <?php echo ($product['is_retail'] == 0 || $product['is_retail'] == null) ? ' text-gray-500' : ' text-purple-500' ?> rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['retail_price'] == null) ? '0' : $product['retail_price'] ?></div>
                 </div>
-                <div class="flex-1">
-                  <p class="text-gray-400 text-sm">Retail: <?php echo ($product['is_retail'] == null) ? '0' : $product['retail_price'] ?></p>
-                  <p class="text-gray-400 text-sm">Whole Sale: <?php echo ($product[' is_whole_sale'] == null) ? '0' : $product['whole_sale_price'] ?></p>
-                  <p class="text-gray-400 text-sm">Ecommerce: <?php echo ($product['is_ecommerce'] == null) ? '0' : $product['ecommerce_price'] ?></p>
+
+                <div class="relative flex  rounded-lg <?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
+                  <div class="px-3 text-left <?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' text-gray-400' : ' text-purple-400' ?> left-0 pt-2 right-0 absolute block text-xs uppercase tracking-wide font-semibold">Whole Sale</div>
+                  <div class="<?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' text-gray-500' : ' text-purple-500' ?>  appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['is_whole_price'] == null) ? '0' : $product['whole_sale_price'] ?></div>
+                </div>
+
+                <div class="relative  flex rounded-lg <?php echo ($product['is_ecommerce'] == 0 || $product['is_ecommerce'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
+                  <div class="px-3 <?php echo ($product['is_ecommerce'] == 0 || $product['is_ecommerce'] == null) ? ' text-gray-400' : ' text-purple-400' ?> text-left left-0 pt-2 right-0 absolute block text-xs uppercase tracking-wide font-semibold">Ecommerce</div>
+                  <div class=" <?php echo ($product['is_ecommerce'] == 0 || $product['is_ecommerce'] == null) ? ' text-gray-500' : ' text-purple-500' ?> appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['ecommerce_price'] == null) ? '0' : $product['ecommerce_price'] ?></div>
                 </div>
               </div>
 
               <p class="text-gray-500"><?php echo $product['description'] ?></p>
 
               <div class="flex py-4 space-x-4">
-                <div class="relative flex rounded-lg bg-gray-100 flex">
-                  <div class="text-center left-0 pt-2 right-0 absolute block text-xs uppercase text-gray-400 tracking-wide font-semibold">Qty</div>
-                  <div class="cursor-pointer appearance-none rounded-xl border border-gray-200 pl-4 pr-8 h-14 flex items-end pb-1"><?php echo $product['quantity'] ?></div>
+
+                 <div>
+                  <div class="rounded-lg bg-gray-100 flex py-2 px-3">
+                    <span class="text-indigo-400 mr-1 mt-1">QTY.</span>
+                    <span class="font-bold text-indigo-600 text-3xl"><?php echo $product['quantity'] ?></span>
+                  </div>
                 </div>
               </div>
                 
