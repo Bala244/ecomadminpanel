@@ -61,7 +61,9 @@
         padding-left: 2rem;
         padding-right: 2rem;
     }
-
+    .toggle-click-filter{
+        cursor: pointer;
+    }
 </style>
 <main class="h-full pb-16 overflow-y-auto">
     <div class="container grid px-6 mx-auto">
@@ -70,59 +72,8 @@
             <div class="my-6">
 
                 <div class="filters">
-                    <a href="javascript::" class="my-6 px-5 py-3 font-medium leading-5 transition-colors duration-150 bg-filter rounded-lg"  id="menu-button" aria-expanded="true" aria-haspopup="true"><i class="fa-solid fa-filter"></i></a>
+                    <!-- <a href="javascript::" class="my-6 px-5 py-3 font-medium leading-5 transition-colors duration-150 bg-filter rounded-lg"  id="menu-button" aria-expanded="true" aria-haspopup="true"><i class="fa-solid fa-filter"></i></a> -->
                     <div class="menu-list origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                    <div class="py-1" role="none">
-                        <form class="px-3" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="search_str" placeholder="Name OR SKU Code">
-                            <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Category</option>
-                                <?php foreach ($main_categories as $main_category) { ?>
-                                  <option value="<?php echo $main_category['id'] ?>" <?php echo ( $product['category_id'] ==  $main_category['id'] ) ? 'selected' : '' ?> ><?php echo $main_category['name'] ?></option>
-                                <?php } ?>
-                            </select>
-
-                            <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Sub Category 1</option>
-                            </select>
-
-                            <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Sub Category 2</option>
-                            </select>
-
-                            <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Sub Category 3</option>
-                            </select>
-
-                             <select name="sub_category_id_4" class="sub_category_5 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Sub Category 4</option>
-                            </select>
-
-                            <select name="sub_category_id_5" class="sub_category_6 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Sub Category 5</option>
-                            </select>
-
-                            <select name="order_by_column" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Order By Column</option>
-                                <option value="quantity">Quantity</option>
-                                <option value="amount">Amount</option>
-                            </select>
-
-                            <select name="order_by_type" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="">Select Order By Value</option>
-                                <option value="asc">ASC</option>
-                                <option value="desc">DESC</option>
-                            </select>
-
-                            <div class="flex justify-between">
-                                <a href="javascript::" class="my-3 px-4 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-gray-600 border border-transparent rounded-lg hover:bg-gray-700 focus:outline-none clear-btn">Clear</a>
-                                <!-- <a href="javascript::" class="my-3 px-8 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">Search</a> -->
-                                <button class="my-3 px-8 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none" aria-label="Submit">
-                                    Submit
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                   </div>
                 </div>
                 <a href="uploads/products/upload_product_sample_file.csv" class="my-6 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none" download>Sample CSV File</a>
@@ -130,6 +81,61 @@
             </div>
         </div>
 
+        <div class="bg-white dark:bg-gray-800 rounded-lg my-3">
+            <div class="flex justify-between items-center toggle-click-filter hover:bg-gray-100 pt-4 pr-4 pl-4 pb-2 rounded-lg">
+                <h2 class="px-3 text-xl mb-2 font-semibold text-gray-700 dark:text-gray-200">Filters</h2>
+                <a href="javascript::" class="px-5 py-3 font-medium leading-5 transition-colors duration-150 rounded-lg" id="menu-button" aria-expanded="true" aria-haspopup="true"><i class="icon-class fa-solid fa-plus"></i></a>
+            </div>
+            <form class="toggle-click-filter-open mb-3 pb-4 pr-4 pl-4 flex justify-between flex-wrap px-3" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: none;">
+                <input class="p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="search_str" placeholder="Name OR SKU Code">
+                <select name="category_id" class="sub_category_1 p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Category</option>
+                    <?php foreach ($main_categories as $main_category) { ?>
+                      <option value="<?php echo $main_category['id'] ?>" <?php echo ( $product['category_id'] ==  $main_category['id'] ) ? 'selected' : '' ?> ><?php echo $main_category['name'] ?></option>
+                    <?php } ?>
+                </select>
+
+                <select name="sub_category_id_1" class="sub_category_2 p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Sub Category 1</option>
+                </select>
+
+                <select name="sub_category_id_2" class="sub_category_3 p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Sub Category 2</option>
+                </select>
+
+                <select name="sub_category_id_3" class="sub_category_4 p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Sub Category 3</option>
+                </select>
+
+                 <select name="sub_category_id_4" class="sub_category_5 p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Sub Category 4</option>
+                </select>
+
+                <select name="sub_category_id_5" class="sub_category_6 p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Sub Category 5</option>
+                </select>
+
+                <select name="order_by_column" class="p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Order By Column</option>
+                    <option value="quantity">Quantity</option>
+                    <option value="amount">Amount</option>
+                </select>
+
+                <select name="order_by_type" class="p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                    <option value="">Select Order By Value</option>
+                    <option value="asc">ASC</option>
+                    <option value="desc">DESC</option>
+                </select>
+
+                <div class="flex justify-end flex-1 ">
+                    <a href="javascript::" class=" mt-4 mr-2 px-4 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-gray-600 border border-transparent rounded-lg hover:bg-gray-700 focus:outline-none clear-btn">Clear</a>
+                    <!-- <a href="javascript::" class="my-3 px-8 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none">Search</a> -->
+                    <button class="mt-4 mr-4 px-8 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none" aria-label="Submit">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <div class="w-full m-auto overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
@@ -322,10 +328,10 @@
     });
 </script>
 <script>
-    $('#menu-button').click(function(){
-        $('.menu-list').toggle();
-        $('.modal-backdrop').toggle();
-    });
+    // $('#menu-button').click(function(){
+    //     $('.menu-list').toggle();
+    //     $('.modal-backdrop').toggle();
+    // });
     $('.clear-btn').click(function(){
         $('form')[0].reset();
     });
@@ -420,6 +426,15 @@
             }
 
           });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        // $('.toggle-click-filter-open').hide();
+        $('.toggle-click-filter').click(function(){
+            $('.toggle-click-filter-open').toggle();
+            $(this).find('i').toggleClass('fa-plus fa-minus');
         });
     });
 </script>
