@@ -52,6 +52,26 @@
         foreach ($datas as $data) {
             $option .= "<option value=".$data['id'].">".$data['name']."</option>";
         }
+    }elseif ($cate_id == 'sub_category_4') {
+        $db = getDbInstance();
+        $db->where('sub_category_id_3', $get_id);
+        $datas = $db->get($cate_id);
+
+        $option = '<option>Choose a Value</option>';
+
+        foreach ($datas as $data) {
+            $option .= "<option value=".$data['id'].">".$data['name']."</option>";
+        }
+    }elseif ($cate_id == 'sub_category_5') {
+        $db = getDbInstance();
+        $db->where('sub_category_id_4', $get_id);
+        $datas = $db->get($cate_id);
+
+        $option = '<option>Choose a Value</option>';
+
+        foreach ($datas as $data) {
+            $option .= "<option value=".$data['id'].">".$data['name']."</option>";
+        }
     }else{
         $db = getDbInstance();
         $db->where('category_id', $get_id);
