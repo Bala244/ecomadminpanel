@@ -54,13 +54,13 @@
 
         $data['name'] = $_POST['name'];
         $data['description'] = $_POST['description'];
-        $data['category_id'] = $_POST['category_id'];
-        $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
-        $data['sub_category_id_2'] = $_POST['sub_category_id_2'];
-        $data['sub_category_id_3'] = $_POST['sub_category_id_3'];
-        $data['sub_category_id_4'] = $_POST['sub_category_id_4'];
-        $data['sub_category_id_5'] = $_POST['sub_category_id_5'];
-        $data['quantity'] = $_POST['quantity'];
+        $data['category_id'] = isset($_POST['category_id']) && $_POST['category_id'] != '' ? $_POST['category_id'] : NULL;
+        $data['sub_category_id_1'] = isset($_POST['sub_category_id_1']) && $_POST['sub_category_id_1'] != '' ? $_POST['sub_category_id_1'] : NULL;
+        $data['sub_category_id_2'] = isset($_POST['sub_category_id_2']) && $_POST['sub_category_id_2'] != '' ? $_POST['sub_category_id_2'] : NULL;
+        $data['sub_category_id_3'] = isset($_POST['sub_category_id_3']) && $_POST['sub_category_id_3'] != '' ? $_POST['sub_category_id_3'] : NULL;
+        $data['sub_category_id_4'] = isset($_POST['sub_category_id_4']) && $_POST['sub_category_id_4'] != '' ? $_POST['sub_category_id_4'] : NULL;
+        $data['sub_category_id_5'] = isset($_POST['sub_category_id_5']) && $_POST['sub_category_id_5'] != '' ? $_POST['sub_category_id_5'] : NULL;
+        $data['quantity'] = isset($_POST['quantity']) && $_POST['quantity'] != '' ? $_POST['quantity'] : 0;
         $data['is_retail'] = 0;
         $data['is_whole_sale'] = 0;
         $data['is_ecommerce'] = 0;
@@ -73,13 +73,20 @@
         if($_POST['is_ecommerce'] == 'on'){
             $data['is_ecommerce'] = 1;
         }
-        $data['retail_price'] = $_POST['retail_price'];
-        $data['whole_sale_price'] = $_POST['whole_sale_price'];
-        $data['ecommerce_price'] = $_POST['ecommerce_price'];
-        $data['sku_code'] = $_POST['sku_code'];
+        $data['retail_price'] = isset($_POST['retail_price']) && $_POST['retail_price'] != '' ? $_POST['retail_price'] : 0;
+        $data['whole_sale_price'] = isset($_POST['whole_sale_price']) && $_POST['whole_sale_price'] != '' ? $_POST['whole_sale_price'] : 0;
+        $data['ecommerce_price'] = isset($_POST['ecommerce_price']) && $_POST['ecommerce_price'] != '' ? $_POST['ecommerce_price'] : 0;
+        $data['sku_code'] = isset($_POST['sku_code']) && $_POST['sku_code'] != '' ? $_POST['sku_code'] : NULL;
         $data['status'] = $_POST['status'];
         $data['updated_at'] = $created_at;
         $data['updated_by'] = $_SESSION['user_id'];
+
+        $response = checkskucodeupdate($data['sku_code'], $id);
+        
+        if($response = 'exists'){
+            $_SESSION['failure'] = 'SKU Code already Exists.';
+            header("Location:products.php");exit;
+        }
 
         $db = getDbInstance();
         $db->where('id', $id);
@@ -163,7 +170,7 @@
             Category
           </span>
           <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Category</option>
             <?php foreach ($main_categories as $main_category) { ?>
               <option value="<?php echo $main_category['id'] ?>" <?php echo ( $product['category_id'] ==  $main_category['id'] ) ? 'selected' : '' ?> ><?php echo $main_category['name'] ?></option>
             <?php } ?>
@@ -176,7 +183,7 @@
             Sub Category 1
           </span>
           <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 1</option>
             <?php foreach ($sub_1_categories as $sub_1_category) { ?>
               <option value="<?php echo $sub_1_category['id'] ?>" <?php echo ( $sub_1_category['id'] == $product['sub_category_id_1'] ) ? 'selected' : '' ?>><?php echo $sub_1_category['name'] ?></option>
             <?php } ?>
@@ -189,7 +196,7 @@
             Sub Category 2
           </span>
           <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 2</option>
             <?php foreach ($sub_2_categories as $sub_2_category) { ?>
               <option value="<?php echo $sub_2_category['id'] ?>" <?php echo ( $sub_2_category['id'] == $product['sub_category_id_2'] ) ? 'selected' : '' ?>><?php echo $sub_2_category['name'] ?></option>
             <?php } ?>
@@ -202,7 +209,7 @@
             Sub Category 3
           </span>
           <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 3</option>
              <?php foreach ($sub_3_categories as $sub_3_category) {  ?>
               <option value="<?php echo $sub_3_category['id'] ?>" <?php echo ( $sub_3_category['id'] == $product['sub_category_id_3'] ) ? 'selected' : '' ?>><?php echo $sub_3_category['name'] ?></option>
             <?php } ?>
@@ -214,7 +221,7 @@
             Sub Category 4
           </span>
           <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 4</option>
              <?php foreach ($sub_4_categories as $sub_4_category) {  ?>
               <option value="<?php echo $sub_4_category['id'] ?>" <?php echo ( $sub_4_category['id'] == $product['sub_category_id_4'] ) ? 'selected' : '' ?>><?php echo $sub_4_category['name'] ?></option>
             <?php } ?>
@@ -226,7 +233,7 @@
             Sub Category 5
           </span>
           <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 5</option>
              <?php foreach ($sub_5_categories as $sub_5_category) {  ?>
               <option value="<?php echo $sub_5_category['id'] ?>" <?php echo ( $sub_5_category['id'] == $product['sub_category_id_5'] ) ? 'selected' : '' ?>><?php echo $sub_5_category['name'] ?></option>
             <?php } ?>
@@ -238,25 +245,31 @@
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="quantity" placeholder="Quantity" value="<?php echo $product['quantity']; ?>" required>
         </label>
 
-        <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400">Sales Type</span>
-          <select name="sales_type" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
-            <option value="retail" <?php echo ( $product['sales_type'] ==  'retail' ) ? 'selected' : '' ?>>Retail</option>
-            <option value="whole_sale"<?php echo ( $product['sales_type'] ==  'whole_sale' ) ? 'selected' : '' ?>>Whole Sale</option>
-          </select>
-        </label>
-
-        <label class="block text-sm">
-            <input type="checkbox" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_retail">
+        <!-- <label class="block text-sm">
+            <input type="checkbox" class="mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_retail" <?php echo $product['is_retail'] == 1 ? 'checked' : ''?>>
             <span class="text-gray-700 dark:text-gray-400">Retail</span>
 
-            <input type="checkbox" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_whole_sale">
+            <input type="checkbox" class="mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_whole_sale" <?php echo $product['is_whole_sale'] == 1 ? 'checked' : ''?>>
             <span class="text-gray-700 dark:text-gray-400">Whole Sale</span>
 
-            <input type="checkbox" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_ecommerce">
+            <input type="checkbox" class="mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_ecommerce" <?php echo $product['is_ecommerce'] == 1 ? 'checked' : ''?>>
             <span class="text-gray-700 dark:text-gray-400">Ecommerce</span>
-        </label>
+        </label> -->
+
+        <div class="flex">
+            <div class="flex mr-2">
+                <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_retail" <?php echo $product['is_retail'] == 1 ? 'checked' : ''?>>
+                <span class=" text-gray-700 dark:text-gray-400">Retail</span>
+            </div>
+            <div class="flex mr-2">
+                <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_whole_sale" <?php echo $product['is_whole_sale'] == 1 ? 'checked' : ''?>>
+                <span class="text-gray-700 dark:text-gray-400">Whole Sale</span>
+            </div>
+            <div class="flex mr-2">
+                <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_ecommerce" <?php echo $product['is_ecommerce'] == 1 ? 'checked' : ''?>>
+                <span class="text-gray-700 dark:text-gray-400">Ecommerce</span>
+            </div>
+        </div>
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Retail Price</span>
@@ -350,7 +363,7 @@
             success: function(result){
               $('.sub_category_2').html('');
               $('.sub_category_2').append(result);
-              $('.sub_category_3, .sub_category_4').html('<option>Choose a Value</option>');
+              $('.sub_category_3, .sub_category_4').html('<option>Select Sub Category 1</option>');
             }
 
           });
@@ -363,7 +376,7 @@
             success: function(result){
               $('.sub_category_3').html('');
               $('.sub_category_3').append(result);
-              $('.sub_category_4').html('<option>Choose a Value</option>');
+              $('.sub_category_4').html('<option>Select Sub Category 2</option>');
             }
 
           });

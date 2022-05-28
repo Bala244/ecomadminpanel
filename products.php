@@ -18,6 +18,27 @@
     $order_by_type = filter_input(INPUT_GET, 'order_by_type');
 
     $db = getDbInstance();
+    if($category_id != ''){
+        $db->where('category_id', $category_id);
+    }
+    if($sub_category_id_1 != ''){
+        $db->where('sub_category_id_1', $sub_category_id_1);
+    }
+    if($sub_category_id_2 != ''){
+        $db->where('sub_category_id_2', $sub_category_id_2);
+    }
+    if($sub_category_id_3 != ''){
+        $db->where('sub_category_id_3', $sub_category_id_3);
+    }
+    if($sub_category_id_4sub_category_id_1 != ''){
+        $db->where('sub_category_id_4', $sub_category_id_4);
+    }
+    if($sub_category_id_5 != ''){
+        $db->where('sub_category_id_5', $sub_category_id_5);
+    }
+    if($search_str != ''){
+        $db->where("name LIKE '%".$search_str."%' OR sku_code='".$search_str."'");
+    }
     $products = $db->get('products');
 
     $main_categories = $db->get('category');
@@ -54,18 +75,18 @@
                     <div class="py-1" role="none">
                         <form class="px-3" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
                             <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="search_str" placeholder="Name OR SKU Code">
-                            <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+                            <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">Select Category</option>
                                 <?php foreach ($main_categories as $main_category) { ?>
                                   <option value="<?php echo $main_category['id'] ?>" <?php echo ( $product['category_id'] ==  $main_category['id'] ) ? 'selected' : '' ?> ><?php echo $main_category['name'] ?></option>
                                 <?php } ?>
                             </select>
 
-                            <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+                            <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">Select Sub Category 1</option>
                             </select>
 
-                            <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
+                            <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">Select Sub Category 2</option>
                             </select>
 
@@ -346,7 +367,7 @@
             success: function(result){
               $('.sub_category_2').html('');
               $('.sub_category_2').append(result);
-              $('.sub_category_3, .sub_category_4').html('<option>Select Sub Category 1</option>');
+              // $('.sub_category_3, .sub_category_4').html('<option>Select Sub Category 1</option>');
             }
 
           });
@@ -359,7 +380,7 @@
             success: function(result){
               $('.sub_category_3').html('');
               $('.sub_category_3').append(result);
-              $('.sub_category_4').html('<option>Select Sub Category 2</option>');
+              // $('.sub_category_4').html('<option>Select Sub Category 2</option>');
             }
 
           });
