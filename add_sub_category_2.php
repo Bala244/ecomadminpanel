@@ -16,26 +16,19 @@
 
     if ($_POST) {
 
-      // print_r($_POST);exit;
-      $data['name'] = $_POST['name'];
-      $data['description'] = $_POST['description'];
-      $data['category_id'] = $_POST['category_id'];
-      $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
-      $data['status'] = $_POST['status'];
-      $data['created_at'] = $currdate;
-      $data['updated_at'] = $currdate;
+        // print_r($_POST);exit;
+        $data['name'] = $_POST['name'];
+        $data['description'] = $_POST['description'];
+        $data['category_id'] = $_POST['category_id'];
+        $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
+        $data['status'] = $_POST['status'];
+        $data['created_at'] = $currdate;
+        $data['created_by'] = $_SESSION['user_id'];
 
-      $db = getDbInstance();
-      // print_r($data);exit;
-      $db->where('name', $data['name']);
-      $category = $db->get('sub_category_2');
+        $db = getDbInstance();
 
-      // print_r(count($category));exit;
-
-      if (count($category) == 0) {
         $resonce = $db->insert('sub_category_2',$data);
-        header('location: sub_category_2.php');
-      }
+        header('location: sub_category_2.php');exit;
     }
 
 
@@ -98,7 +91,7 @@
 
         <div class="flex mt-6 mb-6 justify-end">
             <div>
-              <button class="mr-4 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='categories.php'">
+              <button class="mr-4 px-10 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-zinc-600 border border-transparent rounded-lg hover:bg-zinc-800 focus:outline-none" onclick="window.location.href='sub_category_2.php'">
                 Cancel
               </button>
             </div>

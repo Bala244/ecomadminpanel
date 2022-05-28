@@ -78,6 +78,41 @@ function sanitize_input_variable($input_data)
 }
 
 
+function checkskucode($sku_code){
+	$db = getDbInstance();
+	$db->where('sku_code', $sku_code);
+	$product_details = $db->get('products');
+
+	if(count($product_details) > 0){
+		$response = 'exists';
+		return $response;
+	}else{
+		$response = 'not_exists';
+		return $response;
+	}
+}
+
+
+function checkskucodeupdate($sku_code, $product_id){
+	$db = getDbInstance();
+	$db->where('sku_code', $sku_code);
+	$product_details = $db->get('products');
+
+	if(count($product_details) > 0){
+		if($product_details[0]['id'] != $product_id){
+			$response = 'exists';
+			return $response;
+		}else{
+			$response = 'not_exists';
+			return $response;
+		}
+	}else{
+		$response = 'not_exists';
+		return $response;
+	}
+}
+
+
 function paginationLinks($current_page, $total_pages, $base_url) {
 
 	if ($total_pages <= 1) {

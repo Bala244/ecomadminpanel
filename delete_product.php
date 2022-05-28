@@ -18,15 +18,15 @@
                 $db->where('product_id', $product_id);
 
                 if($db->delete('product_images')){
-                    $_SESSION['success'] = "Category Deleted Successfully";
+                    $_SESSION['success'] = "Product Deleted Successfully";
                     header("Location:products.php");exit;
                 }else{
-                    $_SESSION['failure'] = "Category Not Deleted. Please Try Again";
+                    $_SESSION['failure'] = "Product Deleted. Image data not Deleted. Please Try Again";
                     header("Location:products.php");exit;
                 }
 
             }else{
-                $_SESSION['failure'] = "Category Not Deleted. Please Try Again";
+                $_SESSION['failure'] = "Product Not Deleted. Please Try Again";
                 header("Location:products.php");exit;
             }
         }else{

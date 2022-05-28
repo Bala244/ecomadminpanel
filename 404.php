@@ -14,7 +14,8 @@
       defer
     ></script>
     <script src="../assets/js/init-alpine.js"></script>
-  </head> 
+  </head>
+  </head>
   <!-- new -->
   <body>
     <div

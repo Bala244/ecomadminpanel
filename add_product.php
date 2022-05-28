@@ -25,13 +25,13 @@
 
         $data['name'] = $_POST['name'];
         $data['description'] = $_POST['description'];
-        $data['category_id'] = $_POST['category_id'];
-        $data['sub_category_id_1'] = $_POST['sub_category_id_1'];
-        $data['sub_category_id_2'] = $_POST['sub_category_id_2'];
-        $data['sub_category_id_3'] = $_POST['sub_category_id_3'];
-        $data['sub_category_id_4'] = $_POST['sub_category_id_4'];
-        $data['sub_category_id_5'] = $_POST['sub_category_id_5'];
-        $data['quantity'] = $_POST['quantity'];
+        $data['category_id'] = isset($_POST['category_id']) && $_POST['category_id'] != '' ? $_POST['category_id'] : NULL;
+        $data['sub_category_id_1'] = isset($_POST['sub_category_id_1']) && $_POST['sub_category_id_1'] != '' ? $_POST['sub_category_id_1'] : NULL;
+        $data['sub_category_id_2'] = isset($_POST['sub_category_id_2']) && $_POST['sub_category_id_2'] != '' ? $_POST['sub_category_id_2'] : NULL;
+        $data['sub_category_id_3'] = isset($_POST['sub_category_id_3']) && $_POST['sub_category_id_3'] != '' ? $_POST['sub_category_id_3'] : NULL;
+        $data['sub_category_id_4'] = isset($_POST['sub_category_id_4']) && $_POST['sub_category_id_4'] != '' ? $_POST['sub_category_id_4'] : NULL;
+        $data['sub_category_id_5'] = isset($_POST['sub_category_id_5']) && $_POST['sub_category_id_5'] != '' ? $_POST['sub_category_id_5'] : NULL;
+        $data['quantity'] = isset($_POST['quantity']) && $_POST['quantity'] != '' ? $_POST['quantity'] : 0;
         $data['is_retail'] = 0;
         $data['is_whole_sale'] = 0;
         $data['is_ecommerce'] = 0;
@@ -44,13 +44,20 @@
         if($_POST['is_ecommerce'] == 'on'){
             $data['is_ecommerce'] = 1;
         }
-        $data['retail_price'] = $_POST['retail_price'];
-        $data['whole_sale_price'] = $_POST['whole_sale_price'];
-        $data['ecommerce_price'] = $_POST['ecommerce_price'];
-        $data['sku_code'] = $_POST['sku_code'];
+        $data['retail_price'] = isset($_POST['retail_price']) && $_POST['retail_price'] != '' ? $_POST['retail_price'] : 0;
+        $data['whole_sale_price'] = isset($_POST['whole_sale_price']) && $_POST['whole_sale_price'] != '' ? $_POST['whole_sale_price'] : 0;
+        $data['ecommerce_price'] = isset($_POST['ecommerce_price']) && $_POST['ecommerce_price'] != '' ? $_POST['ecommerce_price'] : 0;
+        $data['sku_code'] = isset($_POST['sku_code']) && $_POST['sku_code'] != '' ? $_POST['sku_code'] : NULL;
         $data['status'] = $_POST['status'];
         $data['created_at'] = $created_at;
         $data['created_by'] = $_SESSION['user_id'];
+
+        $response = checkskucode($data['sku_code']);
+        
+        if($response = 'exists'){
+            $_SESSION['failure'] = 'SKU Code already Exists.';
+            header("Location:products.php");exit;
+        }
 
         $db = getDbInstance();
         $last_id = $db->insert('products',$data);
@@ -123,7 +130,7 @@
             Category
           </span>
           <select name="category_id" class="sub_category_1 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Category</option>
             <?php foreach ($main_categories as $main_category) { ?>
               <option value="<?php echo $main_category['id'] ?>"><?php echo $main_category['name'] ?></option>
             <?php } ?>
@@ -136,7 +143,7 @@
             Sub Category 1
           </span>
           <select name="sub_category_id_1" class="sub_category_2 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 1</option>
           </select>
         </label>
 
@@ -145,7 +152,7 @@
             Sub Category 2
           </span>
           <select name="sub_category_id_2" class="sub_category_3 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 2</option>
           </select>
         </label>
 
@@ -154,7 +161,25 @@
             Sub Category 3
           </span>
           <select name="sub_category_id_3" class="sub_category_4 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
+            <option value="">Select Sub Category 3</option>
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 4
+          </span>
+          <select name="sub_category_id_4" class="sub_category_5 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option value="">Select Sub Category 4</option>
+          </select>
+        </label>
+
+        <label class="block mt-4 text-sm">
+          <span class="text-gray-700 dark:text-gray-400">
+            Sub Category 5
+          </span>
+          <select name="sub_category_id_5" class="sub_category_6 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+            <option value="">Select Sub Category 5</option>
           </select>
         </label>
 
@@ -181,13 +206,35 @@
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="quantity" placeholder="Quantity" required>
         </label>
 
+        <!-- <label class="block text-sm">
+            <input type="checkbox" class="mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_retail">
+            <span class="text-gray-700 dark:text-gray-400">Retail</span>
+
+            <input type="checkbox" class="mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_whole_sale">
+            <span class="text-gray-700 dark:text-gray-400">Whole Sale</span>
+
+            <input type="checkbox" class="mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="is_ecommerce">
+            <span class="text-gray-700 dark:text-gray-400">Ecommerce</span>
+        </label> -->
+
+        <div class="flex">
+            <div class="flex mr-2">
+                <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_retail">
+                <span class=" text-gray-700 dark:text-gray-400">Retail</span>
+            </div>
+            <div class="flex mr-2">
+                <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_whole_sale">
+                <span class="text-gray-700 dark:text-gray-400">Whole Sale</span>
+            </div>
+            <div class="flex mr-2">
+                <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_ecommerce">
+                <span class="text-gray-700 dark:text-gray-400">Ecommerce</span>
+            </div>
+        </div>
+
         <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400">Sales Type</span>
-          <select name="sales_type" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" required>
-            <option>Choose a Value</option>
-            <option value="retail">Retail</option>
-            <option value="whole_sale">Whole Sale</option>
-          </select>
+          <span class="text-gray-700 dark:text-gray-400">Retail Price</span>
+          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="retail_price" placeholder="Retail Price">
         </label>
 
         <label class="block text-sm ">
@@ -205,11 +252,6 @@
                 <span class="text-gray-700 dark:text-gray-400">Ecommerce</span>
               </div>
             </div>
-        </label>
-
-        <label class="block text-sm">
-          <span class="text-gray-700 dark:text-gray-400">Retail Price</span>
-          <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="retail_price" placeholder="Retail Price">
         </label>
 
         <label class="block text-sm">
