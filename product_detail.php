@@ -152,17 +152,19 @@
 
 
               <div class="flex items-center justify-start w-full space-x-4 my-4">
-                <div class="relative flex rounded-lg bg-green-50 flex">
-                  <div class="px-3 text-green-400 text-left left-0 pt-2 right-0 absolute block text-xs uppercase text-gray-400 tracking-wide font-semibold">Retail</div>
-                  <div class="cursor-pointer appearance-none  text-green-500 rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['is_retail'] == null) ? '0' : $product['retail_price'] ?></div>
+                <div class="relative flex rounded-lg <?php echo ($product['is_retail'] == 0 || $product['is_retail'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
+                  <div class="px-3 <?php echo ($product['is_retail'] == 0 || $product['is_retail'] == null) ? ' text-gray-400' : ' text-purple-400' ?> text-left left-0 pt-2 right-0 absolute block text-xs uppercase tracking-wide font-semibold">Retail</div>
+                  <div class=" appearance-none  <?php echo ($product['is_retail'] == 0 || $product['is_retail'] == null) ? ' text-gray-500' : ' text-purple-500' ?> rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['retail_price'] == null) ? '0' : $product['retail_price'] ?></div>
                 </div>
-                <div class="relative flex  rounded-lg bg-purple-50 flex">
-                  <div class="px-3 text-left text-purple-400 left-0 pt-2 right-0 absolute block text-xs uppercase text-gray-400 tracking-wide font-semibold">Whole Sale</div>
-                  <div class="text-purple-500 cursor-pointer appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product[' is_whole_sale'] == null) ? '0' : $product['whole_sale_price'] ?></div>
+
+                <div class="relative flex  rounded-lg <?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
+                  <div class="px-3 text-left <?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' text-gray-400' : ' text-purple-400' ?> left-0 pt-2 right-0 absolute block text-xs uppercase tracking-wide font-semibold">Whole Sale</div>
+                  <div class="<?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' text-gray-500' : ' text-purple-500' ?>  appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['is_whole_price'] == null) ? '0' : $product['whole_sale_price'] ?></div>
                 </div>
-                <div class="relative  flex rounded-lg bg-yellow-50 flex">
-                  <div class="px-3 text-yellow-400 text-left left-0 pt-2 right-0 absolute block text-xs uppercase text-gray-400 tracking-wide font-semibold">Ecommerce</div>
-                  <div class="cursor-pointer text-yellow-500 appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['is_ecommerce'] == null) ? '0' : $product['ecommerce_price'] ?></div>
+
+                <div class="relative  flex rounded-lg <?php echo ($product['is_ecommerce'] == 0 || $product['is_ecommerce'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
+                  <div class="px-3 <?php echo ($product['is_ecommerce'] == 0 || $product['is_ecommerce'] == null) ? ' text-gray-400' : ' text-purple-400' ?> text-left left-0 pt-2 right-0 absolute block text-xs uppercase tracking-wide font-semibold">Ecommerce</div>
+                  <div class=" <?php echo ($product['is_ecommerce'] == 0 || $product['is_ecommerce'] == null) ? ' text-gray-500' : ' text-purple-500' ?> appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['ecommerce_price'] == null) ? '0' : $product['ecommerce_price'] ?></div>
                 </div>
               </div>
 

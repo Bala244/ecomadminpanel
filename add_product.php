@@ -183,24 +183,6 @@
           </select>
         </label>
 
-        <label class="block mt-4 text-sm">
-          <span class="text-gray-700 dark:text-gray-400">
-            Sub Category 4
-          </span>
-          <select name="sub_category_id_4" class="sub_category_5 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
-          </select>
-        </label>
-
-        <label class="block mt-4 text-sm">
-          <span class="text-gray-700 dark:text-gray-400">
-            Sub Category 5
-          </span>
-          <select name="sub_category_id_5" class="sub_category_6 block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            <option>Choose a Value</option>
-          </select>
-        </label>
-
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Quantity</span>
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="quantity" placeholder="Quantity" required>
@@ -237,22 +219,7 @@
           <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="retail_price" placeholder="Retail Price">
         </label>
 
-        <label class="block text-sm ">
-            <div class="flex">
-               <div class="flex mr-2">
-                   <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_retail">
-                    <span class=" text-gray-700 dark:text-gray-400">Retail</span>
-                </div>
-                <div class="flex mr-2">
-                  <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_whole_sale">
-                  <span class="text-gray-700 dark:text-gray-400">Whole Sale</span>
-                </div>
-                <div class="flex mr-2">
-                <input type="checkbox" class="block mt-1 mr-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-check-input" name="is_ecommerce">
-                <span class="text-gray-700 dark:text-gray-400">Ecommerce</span>
-              </div>
-            </div>
-        </label>
+
 
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">Whole Sale Price</span>
