@@ -35,11 +35,16 @@
 
         $db = getDbInstance();
         $db->where('id', $user_id);
-        $db->where('pin_no', $pin_no);
         $user = $db->get('users');
         if(count($user) > 0){
-            $response['status'] = 'success';
-            $response['message'] = 'Pin No Match';
+
+            if($user[0]['pin_no'] == $object['pin_no']){
+                $response['status'] = 'success';
+                $response['message'] = 'Pin No Match';
+            }else
+                $response['status'] = 'failure';
+                $response['message'] = 'Pin No Do Not Match';
+            }
         }else{
             $response['status'] = 'failure';
             $response['message'] = 'Pin No do not match.';
