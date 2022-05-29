@@ -41,7 +41,7 @@ $columns = array(
 $sql_details = array(
     'user' => 'root',
     'pass' => '',
-    'db'   => 'packurs',
+    'db'   => 'packurss',
     'host' => 'localhost'
 );
  
