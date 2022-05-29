@@ -5,6 +5,9 @@
   $('.toast-close').click(function(){
     $(this).remove();
   });
+  $(document).ready(function () {
+    $('.datatable').DataTable();
+  });
 </script>
   </body>
 </html>
