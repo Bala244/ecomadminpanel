@@ -17,7 +17,7 @@
 
         <link href="./assets/fontawesome/css/all.css" rel="stylesheet">
         <link href="./assets/drag-drop/dist/image-uploader.min.css" rel="stylesheet">
-
+        <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer
         ></script>

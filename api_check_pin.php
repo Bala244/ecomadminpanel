@@ -35,6 +35,16 @@
 
         $db = getDbInstance();
         $db->where('id', $user_id);
+<<<<<<< HEAD
+        $db->where('pin_no', $pin_no);
+        $user = $db->get('users');
+        if(count($user) > 0){
+            $response['status'] = 'success';
+            $response['message'] = 'Pin No Match';
+        }else{
+            $response['status'] = 'failure';
+            $response['message'] = 'Pin No do not match.';
+=======
         $user = $db->get('users');
 
         if(count($user) > 0){
@@ -52,6 +62,7 @@
         }else{
             $response['status'] = 'failure';
             $response['message'] = 'User Not Found';
+>>>>>>> 3b4ee4ed1d1e6ffccebe2cd90a677e94c791f60e
         }
     }else{
         $response['status'] = 'failure';
