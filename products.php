@@ -206,7 +206,6 @@
     });
 </script>
 <?php include 'inc/footer.php';?>
-
 <script>
     // $('#menu-button').click(function(){
     //     $('.menu-list').toggle();
