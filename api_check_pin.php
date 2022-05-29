@@ -42,6 +42,10 @@
                 $response['status'] = 'success';
                 $response['message'] = 'Pin No Match';
             }else{
+            if($user[0]['pin_no'] == $object['pin_no']){
+                $response['status'] = 'success';
+                $response['message'] = 'Pin No Match';
+            }else{
                 $response['status'] = 'failure';
                 $response['message'] = 'Pin No Do Not Match';
             }
