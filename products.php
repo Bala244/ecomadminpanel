@@ -39,8 +39,9 @@
     if($search_str != ''){
         $db->where("name LIKE '%".$search_str."%' OR sku_code='".$search_str."'");
     }
-    $products = $db->get('products');
 
+    $products = $db->get('products');
+    
     $main_categories = $db->get('category');
     include "inc/head.php";
     include "inc/header.php";

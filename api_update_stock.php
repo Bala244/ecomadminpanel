@@ -28,30 +28,39 @@
     $object = json_decode($body, true);
     $response = array();
 
+    date_default_timezone_set('Asia/Kolkata');
+    $updated_at = date('Y-m-d H:i:s');
+
     $user_id = isset($object['user_id']) && $object['user_id'] != '' ? $object['user_id'] : '';
-    $pin_no = isset($object['pin_no']) && $object['pin_no'] != '' ? $object['pin_no'] : '';
+    $product_id = isset($object['product_id']) && $object['product_id'] != '' ? $object['product_id'] : '';
+    $quantity = isset($object['quantity']) && $object['quantity'] != '' ? $object['quantity'] : '';
 
-    if($user_id != '' && $pin_no != ''){
-
+    if($product_id != '' && $quantity != '' && $user_id != ''){
         $db = getDbInstance();
-        $db->where('id', $user_id);
-        $user = $db->get('users');
+        $db->where('id', $product_id);
+        $product_details = $db->get('products');
+        if(count($product_details) > 0){
+            $data = array();
+            $data['quantity'] = $quantity;
+            $data['updated_at'] = $updated_at;
+            $data['updated_by'] = $user_id;
 
-        if(count($user) > 0){
-            if($user[0]['pin_no'] == $pin_no){
+            $db = getDbInstance();
+            $db->where('id', $product_id);
+            if($db->update('products', $data)){
                 $response['status'] = 'success';
-                $response['message'] = 'Pin No Match';
+                $response['message'] = 'Stock Updated Successfully';
             }else{
                 $response['status'] = 'failure';
-                $response['message'] = 'Pin No Do Not Match';
+                $response['message'] = 'Stock not Updated. Please Try Again';
             }
         }else{
             $response['status'] = 'failure';
-            $response['message'] = 'User Not Found';
+            $response['message'] = 'Product Not Found. Invalid Input.';
         }
     }else{
         $response['status'] = 'failure';
-        $response['message'] = 'User ID or Pin No is empty';
+        $response['message'] = 'Product ID or Quantity or User ID is empty. Please Check Input';
     }
 
     echo json_encode($response);
