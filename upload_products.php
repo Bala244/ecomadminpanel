@@ -40,6 +40,8 @@
             if (($handle = fopen($filetmpname, "r")) !== FALSE){
                 $row = 1;
                 $i = 0;
+                $failed_count = 0;
+                $success_count = 0;
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){
                     $num = count($data);
                     if($row > 1){
@@ -79,32 +81,33 @@
 
                         $response = checkskucode($data['sku_code']);
 
-                        if($response = 'exists'){
-                            $_SESSION['failure'] = 'SKU Code already Exists.';
-                            header("Location:products.php");exit;
-                        }
+                        if($response = 'not_exists'){
 
-                        $db = getDbInstance();
-                        $last_id = $db->insert('products',$data_to_insert);
+                            $db = getDbInstance();
+                            $last_id = $db->insert('products',$data_to_insert);
 
-                        if($last_id){
-                            $product_images = explode(',', $data[5]);
-                            if(isset($data[5]) && $data[5] != ''){
-                                for($i=0;$i<count($product_images);$i++){
-                                    $filepath = trim($product_images[$i]);
+                            if($last_id){
+                                $product_images = explode(',', $data[5]);
+                                if(isset($data[5]) && $data[5] != ''){
+                                    for($i=0;$i<count($product_images);$i++){
+                                        $filepath = trim($product_images[$i]);
 
-                                    $data_to_db = array();
-                                    $data_to_db['product_id'] = $last_id;
-                                    $data_to_db['filepath'] = $filepath;
-                                    $data_to_db['created_at'] = $created_at;
-                                    $data_to_db['created_by'] = $_SESSION['user_id'];
+                                        $data_to_db = array();
+                                        $data_to_db['product_id'] = $last_id;
+                                        $data_to_db['filepath'] = $filepath;
+                                        $data_to_db['created_at'] = $created_at;
+                                        $data_to_db['created_by'] = $_SESSION['user_id'];
 
-                                    $db =  getDbInstance();
-                                    // echo '<pre>';print_r($data_to_db);echo '</pre>';exit;
+                                        $db =  getDbInstance();
+                                        // echo '<pre>';print_r($data_to_db);echo '</pre>';exit;
 
-                                    $insert_id = $db->insert('product_images', $data_to_db);
+                                        $insert_id = $db->insert('product_images', $data_to_db);
+                                    }
                                 }
+                                $success_count++;
                             }
+                        }else{
+                            $failed_count++;
                         }
                     }
                     $row++;

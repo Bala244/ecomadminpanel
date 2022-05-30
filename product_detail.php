@@ -38,7 +38,7 @@
       $sub_category_1 = $db->getOne('sub_category_1', NULL, 'name');
       $sub_category_1_name = $sub_category_1['name'];
     }
-    
+
     if ($product['sub_category_id_2'] != NULL) {
       $db->where('id',$product['sub_category_id_2']);
       $sub_category_2 = $db->getOne('sub_category_2', NULL, 'name');
@@ -98,7 +98,7 @@
         <!-- Breadcrumbs -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center space-x-2 text-gray-400 text-sm">
-            
+
             <a href="products.php" class="hover:underline hover:text-gray-600">Product</a>
             <span class="leading-none-span">
               <svg class="h-5 w-5 leading-none text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -159,7 +159,7 @@
 
                 <div class="relative flex  rounded-lg <?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
                   <div class="px-3 text-left <?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' text-gray-400' : ' text-purple-400' ?> left-0 pt-2 right-0 absolute block text-xs uppercase tracking-wide font-semibold">Whole Sale</div>
-                  <div class="<?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' text-gray-500' : ' text-purple-500' ?>  appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['is_whole_price'] == null) ? '0' : $product['whole_sale_price'] ?></div>
+                  <div class="<?php echo ($product['is_whole_sale'] == 0 || $product['is_whole_sale'] == null) ? ' text-gray-500' : ' text-purple-500' ?>  appearance-none rounded-xl border border-gray-200 pl-8 pr-16 h-14 flex items-end pb-1">Rs. <?php echo ($product['whole_sale_price'] == null) ? '0' : $product['whole_sale_price'] ?></div>
                 </div>
 
                 <div class="relative  flex rounded-lg <?php echo ($product['is_ecommerce'] == 0 || $product['is_ecommerce'] == null) ? ' bg-gray-50 cursor-not-allowed' : ' bg-purple-50 cursor-default' ?> flex">
@@ -179,7 +179,7 @@
                   </div>
                 </div>
               </div>
-                
+
             </div>
           </div>
         </div>
