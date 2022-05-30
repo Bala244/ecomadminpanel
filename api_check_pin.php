@@ -39,23 +39,43 @@
 
         if(count($user) > 0){
             if($user[0]['pin_no'] == $pin_no){
+                $status = '';
+
+                if($user[0]['is_active'] == 1){
+                    $status = 'Active';
+                }else{
+                    $status = 'InActive';
+                }
+
+                $user_data = array();
+                $user_data['id'] = $user[0]['id'];
+                $user_data['name'] = $user[0]['name'];
+                $user_data['email'] = $user[0]['email'];
+                $user_data['pin_no'] = $user[0]['pin_no'];
+                $user_data['admin_type'] = $user[0]['admin_type'];
+                $user_data['mobile_no'] = $user[0]['mobile_no'];
+                $user_data['gender'] = $user[0]['gender'];
+                $user_data['address'] = $user[0]['address'];
+                $user_data['profile_image'] = 'https://packurs.com/admin/'.$user[0]['profile_image'];
+                $user_data['is_active'] = $status;
+
                 $response['status'] = 'success';
                 $response['message'] = 'Pin No Match';
-            }else{
-            if($user[0]['pin_no'] == $object['pin_no']){
-                $response['status'] = 'success';
-                $response['message'] = 'Pin No Match';
+                $response['data'] = $user_data;
             }else{
                 $response['status'] = 'failure';
                 $response['message'] = 'Pin No Do Not Match';
+                $response['data'] = '';
             }
         }else{
             $response['status'] = 'failure';
             $response['message'] = 'User Not Found';
+            $response['data'] = '';
         }
     }else{
         $response['status'] = 'failure';
         $response['message'] = 'User ID or Pin No is empty';
+        $response['data'] = '';
     }
 
     echo json_encode($response);

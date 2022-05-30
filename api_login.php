@@ -45,9 +45,29 @@
         $db_password = $user_details['password'];
 
         if(password_verify($password, $db_password)){
+            $status = '';
+
+            if($user_details['is_active'] == 1){
+                $status = 'Active';
+            }else{
+                $status = 'InActive';
+            }
+
+            $user_data = array();
+            $user_data['id'] = $user_details['id'];
+            $user_data['name'] = $user_details['name'];
+            $user_data['email'] = $user_details['email'];
+            $user_data['pin_no'] = $user_details['pin_no'];
+            $user_data['admin_type'] = $user_details['admin_type'];
+            $user_data['mobile_no'] = $user_details['mobile_no'];
+            $user_data['gender'] = $user_details['gender'];
+            $user_data['address'] = $user_details['address'];
+            $user_data['profile_image'] = 'https://packurs.com/admin/'.$user_details['profile_image'];
+            $user_data['is_active'] = $status;
+
             $response['status'] = 'success';
             $response['message'] = 'Login Successful';
-            $response['data'] = $user_details;
+            $response['data'] = $user_data;
         }else{
             $response['status'] = 'failure';
             $response['message'] = 'Invalid Credentials';
