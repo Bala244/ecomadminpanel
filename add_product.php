@@ -53,8 +53,8 @@
         $data['created_by'] = $_SESSION['user_id'];
 
         $response = checkskucode($data['sku_code']);
-        
-        if($response = 'exists'){
+
+        if($response == 'exists'){
             $_SESSION['failure'] = 'SKU Code already Exists.';
             header("Location:products.php");exit;
         }
@@ -68,7 +68,7 @@
                 for($i=0;$i<count($_FILES['images']['name']);$i++){
                     $filename = $_FILES['images']['name'][$i];
                     $upload_path = 'uploads/products/'.$filename;
-                    $filepath = 'http://packurs.com/admin/uploads/products/'.$filename;
+                    $filepath = 'https://packurs.com/admin/uploads/products/'.$filename;
 
                     if(move_uploaded_file($_FILES['images']['tmp_name'][$i], $upload_path)){
                         $data_to_db = array();

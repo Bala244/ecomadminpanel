@@ -67,6 +67,7 @@
         $db->where('sub_category_id_5', $sub_category_id_5);
     }
     $db->orderBy('id', 'desc');
+    // echo '<pre>';print_r($db);echo '</pre>';exit;
     $products = $db->arraybuilder()->paginate('products', $page, 'products.*');
 
     if(count($products) > 0){

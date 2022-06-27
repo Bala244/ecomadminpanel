@@ -82,8 +82,8 @@
         $data['updated_by'] = $_SESSION['user_id'];
 
         $response = checkskucodeupdate($data['sku_code'], $id);
-        
-        if($response = 'exists'){
+
+        if($response == 'exists'){
             $_SESSION['failure'] = 'SKU Code already Exists.';
             header("Location:products.php");exit;
         }
@@ -108,7 +108,7 @@
                 for($i=0;$i<count($_FILES['images']['name']);$i++){
                     $filename = $_FILES['images']['name'][$i];
                     $upload_path = 'uploads/products/'.$filename;
-                    $filepath = 'http://packurs.com/admin/uploads/products/'.$filename;
+                    $filepath = 'https://packurs.com/admin/uploads/products/'.$filename;
 
                     if(move_uploaded_file($_FILES['images']['tmp_name'][$i], $upload_path)){
                         $data_to_db = array();
@@ -133,10 +133,10 @@
                 $_SESSION['failure'] = 'Product images not uploaded completely';
             }
 
-            $_SESSION['success'] = 'Product Created Successfully';
+            $_SESSION['success'] = 'Product Updated Successfully';
             header("Location:products.php");exit;
         }else{
-            $_SESSION['failure'] = 'Product Not Created. Please Try Again.';
+            $_SESSION['failure'] = 'Product Not Updated. Please Try Again.';
             header("Location:products.php");exit;
         }
     }

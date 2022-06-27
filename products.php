@@ -30,7 +30,7 @@
     if($sub_category_id_3 != ''){
         $db->where('sub_category_id_3', $sub_category_id_3);
     }
-    if($sub_category_id_4sub_category_id_1 != ''){
+    if($sub_category_id_4 != ''){
         $db->where('sub_category_id_4', $sub_category_id_4);
     }
     if($sub_category_id_5 != ''){
@@ -93,8 +93,8 @@
                 <h2 class="px-3 text-xl mb-2 font-semibold text-gray-700 dark:text-gray-200">Filters</h2>
                 <a href="javascript::" class="px-5 py-3 font-medium leading-5 transition-colors duration-150 rounded-lg" id="menu-button" aria-expanded="true" aria-haspopup="true"><i class="icon-class fa-solid fa-plus"></i></a>
             </div>
-            <form class="toggle-click-filter-open mb-3 pb-4 pr-4 pl-4 flex justify-between flex-wrap px-3" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: none;">
-                <input class="p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="search_str" placeholder="Name OR SKU Code">
+            <div class="toggle-click-filter-open mb-3 pb-4 pr-4 pl-4 flex justify-between flex-wrap px-3 filter-form" style="display: none;">
+                <input class="p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input filter_name" name="search_str" placeholder="Name OR SKU Code">
                 <select name="category_id" class="sub_category_1 p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <option value="">Select Category</option>
                     <?php foreach ($main_categories as $main_category) { ?>
@@ -122,13 +122,13 @@
                     <option value="">Select Sub Category 5</option>
                 </select>
 
-                <select name="order_by_column" class="p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                <?php /* ?><select name="order_by_column" class="filter_order_val p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <option value="">Select Order By Column</option>
                     <option value="quantity">Quantity</option>
                     <option value="amount">Amount</option>
                 </select>
 
-                <select name="order_by_type" class="p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                <select name="order_by_type" class="filter_order p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <option value="">Select Order By Value</option>
                     <option value="asc">ASC</option>
                     <option value="desc">DESC</option>
@@ -140,8 +140,8 @@
                     <button class="mt-4 mr-4 px-8 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none" aria-label="Submit">
                         Submit
                     </button>
-                </div>
-            </form>
+                </div><?php */ ?>
+            </div>
         </div>
 
         <div class="w-full m-auto overflow-hidden rounded-lg shadow-xs">
@@ -157,7 +157,7 @@
                             <th class="px-4 py-3 w-2/12">Actions</th>
                         </tr>
                     </thead>
-                    
+
                 </table>
             </div>
         </div>
@@ -223,7 +223,7 @@
             $('.modal-backdrop').hide();
         });
 
-        
+
     });
 </script>
 <script>
@@ -330,14 +330,37 @@
 
 <script>
     $(document).ready(function () {
-        $('#example').DataTable({
+        var table = $('#example').DataTable({
             processing: true,
             serverSide: true,
-            ajax: 'products_serverside.php',
+            ajax: {
+               "url": "products_serverside.php",
+               "data": function ( d ) {
+                 return $.extend( {}, d, {
+                   "name": $(".filter_name").val(),
+                   "sub_category_1": $(".sub_category_1").val(),
+                   "sub_category_2": $(".sub_category_2").val(),
+                   "sub_category_3": $(".sub_category_3").val(),
+                   "sub_category_4": $(".sub_category_4").val(),
+                   "sub_category_5": $(".sub_category_5").val(),
+                   "sub_category_6": $(".sub_category_6").val(),
+                   "filter_order_val": $(".filter_order_val").val(),
+                   "filter_order": $(".filter_order").val()
+                 } );
+               }
+             },
             "columnDefs": [{"render": createManageBtn, "data": null, "targets": [5]}],
-            
+
+        });
+        // Redraw the table
+        table.draw();
+
+        // Redraw the table based on the custom input
+        $('.filter_name,.sub_category_1,.sub_category_2,.sub_category_3,.sub_category_4,.sub_category_5,.sub_category_6').bind("keyup change", function(){
+            table.draw();
         });
     });
+
 </script>
 <script type="text/javascript">
     function createManageBtn(data, type, full) {

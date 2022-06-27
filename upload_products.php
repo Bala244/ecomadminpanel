@@ -79,9 +79,9 @@
                         $data_to_insert['created_at'] = $created_at;
                         $data_to_insert['created_by'] = $_SESSION['user_id'];
 
-                        $response = checkskucode($data['sku_code']);
+                        $response = checkskucode($data_to_insert['sku_code']);
 
-                        if($response = 'not_exists'){
+                        if($response == 'not_exists'){
 
                             $db = getDbInstance();
                             $last_id = $db->insert('products',$data_to_insert);
@@ -109,13 +109,21 @@
                         }else{
                             $failed_count++;
                         }
+                        // echo $success_count.' / '.$failed_count;exit;
                     }
                     $row++;
                 }
             }
         }
 
-        $_SESSION['success'] = 'Product Uploaded Successfully';
+        $total_product_count = $row - 2;
+
+        if($success_count > 0){
+            // $_SESSION['success'] = 'Product Uploaded Successfully. Totally '.$success_count.' products uploaded.';
+            $_SESSION['success'] = $success_count." out of ".$total_product_count." products uploaded Successfully.";
+        }else{
+            $_SESSION['failure'] = $failed_count.' products failed to upload.';
+        }
         header("Location:products.php");exit;
 
     }

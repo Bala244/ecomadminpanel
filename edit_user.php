@@ -9,10 +9,11 @@
 
 
     $user_id = filter_input(INPUT_GET, 'user_id');
+    $user_details = array();
 
-    // if(!isset($user_id) || $user_id == ''){
-    //     header('Location:users.php');exit;
-    // }
+    if(!isset($user_id) || $user_id == ''){
+        header('Location:users.php');exit;
+    }
 
     $query1 = "SELECT * FROM `users` WHERE `id`='".$user_id."'";
     $execute1 = mysqli_query($conn, $query1);
@@ -20,6 +21,8 @@
     if(mysqli_num_rows($execute1) > 0){
         $user_details = mysqli_fetch_assoc($execute1);
     }
+
+    // echo '<pre>';print_r($user_details);echo '</pre>';exit;
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
@@ -53,13 +56,14 @@
         $name = isset($_POST['name']) && $_POST['name'] != '' ? $_POST['name'] : '';
         $email = isset($_POST['email']) && $_POST['email'] != '' ? $_POST['email'] : '';
         $mobile_no = isset($_POST['mobile_no']) && $_POST['mobile_no'] != '' ? $_POST['mobile_no'] : '';
+        $pin_no = isset($_POST['pin_no']) && $_POST['pin_no'] != '' ? $_POST['pin_no'] : '';
         $gender = isset($_POST['gender']) && $_POST['gender'] != '' ? $_POST['gender'] : '';
         $address = isset($_POST['address']) && $_POST['address'] != '' ? $_POST['address'] : '';
         $updated_at = date('Y-m-d H:i:s');
         $updated_by = $_SESSION['user_id'];
 
         $query1 = "UPDATE `users` SET `name` = '".$name."', `email` = '".$email."', `mobile_no`='".$mobile_no."',
-            `gender` ='".$gender."', `address` = '".$address."', `updated_at` = '".$updated_at."',
+            `pin_no`='".$pin_no."', `gender` ='".$gender."', `address` = '".$address."', `updated_at` = '".$updated_at."',
             `updated_by` = '".$updated_by."'".$query_condition." WHERE `id` = ".$user_id."";
         // echo $query1;exit;
         if(mysqli_query($conn, $query1)){
@@ -104,6 +108,11 @@
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
             <input type="text" name="mobile_no" value="<?php echo $user_details['mobile_no'];?>" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Mobile Number" autocomplete="Off">
+          </label>
+
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400">Pin No</span>
+            <input type="text" name="pin_no" value="<?php echo $user_details['pin_no'];?>" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Pin No" autocomplete="Off">
           </label>
 
           <div class="mt-4 text-sm">
