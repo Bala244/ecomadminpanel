@@ -30,7 +30,7 @@
     if($sub_category_id_3 != ''){
         $db->where('sub_category_id_3', $sub_category_id_3);
     }
-    if($sub_category_id_4sub_category_id_1 != ''){
+    if($sub_category_id_4 != ''){
         $db->where('sub_category_id_4', $sub_category_id_4);
     }
     if($sub_category_id_5 != ''){
@@ -40,7 +40,8 @@
         $db->where("name LIKE '%".$search_str."%' OR sku_code='".$search_str."'");
     }
 
-    $products = $db->get('products');
+    $products = $db->get('products_large');
+    // echo '<pre>';print_r($products);echo '</pre>';exit;
     
     $main_categories = $db->get('category');
     include "inc/head.php";
@@ -140,7 +141,7 @@
 
         <div class="w-full m-auto overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap">
+                <table class="w-full whitespace-no-wrap" id="myTable">
                     <thead>
                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3">S.No</th>
@@ -221,12 +222,12 @@
                     </tbody>
                 </table>
             </div>
-            <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+            <!-- <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
                 <span class="flex items-center col-span-3">
                     Showing 21-30 of 100
                 </span>
                 <span class="col-span-2"></span>
-                <!-- Pagination -->
+
                 <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
                     <nav aria-label="Table navigation">
                         <ul class="inline-flex items-center">
@@ -280,7 +281,7 @@
                         </ul>
                     </nav>
                 </span>
-            </div>
+            </div> -->
         </div>
     </div>
     <div modal-backdrop="" class="modal-backdrop bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40 hidden"></div>
@@ -352,6 +353,12 @@
 
             // console.log('here', $(this).text());
         });
+
+
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+
 
         $('.highlighter-none').off('click').click(function(){
           $('.highlighter-none').removeClass('text-zinc-50 px-3 bg-purple-600');

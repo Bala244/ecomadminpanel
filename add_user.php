@@ -31,14 +31,15 @@
         $email = isset($_POST['email']) && $_POST['email'] != '' ? $_POST['email'] : '';
         $password = $db_password;
         $mobile_no = isset($_POST['mobile_no']) && $_POST['mobile_no'] != '' ? $_POST['mobile_no'] : '';
+        $pin_no = isset($_POST['pin_no']) && $_POST['pin_no'] != '' ? $_POST['pin_no'] : '';
         $gender = isset($_POST['gender']) && $_POST['gender'] != '' ? $_POST['gender'] : '';
         $address = isset($_POST['address']) && $_POST['address'] != '' ? $_POST['address'] : '';
         $profile_image = $filepath;
         $created_at = date('Y-m-d H:i:s');
         $created_by = $_SESSION['user_id'];
 
-        $query1 = "INSERT INTO `users` (`name`, `email`, `password`, `mobile_no`, `admin_type`, `gender`, `address`, `profile_image`, `is_active`, `created_at`, `created_by`)
-            VALUES ('".$name."', '".$email."', '".$password."', '".$mobile_no."', 'admin', '".$gender."', '".$address."', '".$filepath."', '1', '".$created_at."', '".$created_by."')";
+        $query1 = "INSERT INTO `users` (`name`, `email`, `password`, `mobile_no`, `pin_no`, `admin_type`, `gender`, `address`, `profile_image`, `is_active`, `created_at`, `created_by`)
+            VALUES ('".$name."', '".$email."', '".$password."', '".$mobile_no."', '".$pin_no."', 'admin', '".$gender."', '".$address."', '".$filepath."', '1', '".$created_at."', '".$created_by."')";
         $execute1 = mysqli_query($conn, $query1);
 
         if($execute1){
@@ -82,6 +83,11 @@
           <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
             <input type="text" name="mobile_no" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Mobile Number" autocomplete="Off">
+          </label>
+
+          <label class="block text-sm">
+            <span class="text-gray-700 dark:text-gray-400">Pin No</span>
+            <input type="text" name="pin_no" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Pin No" autocomplete="Off">
           </label>
 
           <div class="mt-4 text-sm">

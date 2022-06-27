@@ -13,6 +13,7 @@
  * side processing requirements of DataTables.
  *
  * @license MIT - http://datatables.net/license_mit
+ * @author - https://www.codexworld.com
  */
 
 
@@ -246,7 +247,7 @@ class SSP {
 	 *  @param  array $columns Column information array
 	 *  @return array          Server-side processing response array
 	 */
-	static function simple ( $request, $conn, $table, $primaryKey, $columns )
+	static function simple ( $request, $conn, $table, $primaryKey, $columns, $searchFilter=array() )
 	{
 		$bindings = array();
 		$db = self::db( $conn );
@@ -255,12 +256,40 @@ class SSP {
 		$limit = self::limit( $request, $columns );
 		$order = self::order( $request, $columns );
 		$where = self::filter( $request, $columns, $bindings );
+		if(!empty($searchFilter['filter'])){
+			$sqlWhere = (strpos($where, 'WHERE') !== false)?" AND ":" WHERE ";
+			$whereAd = '';
+			$i = 0;
+			foreach($searchFilter['filter'] as $key=>$val){
+				if(!empty($val)){
+					$pre = ($i > 0)?" AND ":"";
+					$whereAd .= $pre.$key." = '".$val."'";
+				}
+				$i++;
+			}
+			$whereLike = !empty($whereLike)?$sqlWhere.$whereLike:'';
+			
+			$where = $where.$sqlWhere.$whereAd;
+		}
+		
+		$whereLike = '';
+		if(!empty($searchFilter['search'])){
+			$sqlWhere = (strpos($where, 'WHERE') !== false)?" AND ":" WHERE ";
+			$i = 0;
+			foreach($searchFilter['search'] as $key=>$val){
+				$pre = ($i > 0)?" OR ":"";
+				$whereLike .= $pre.$key." LIKE '%".$val."%'";
+				$i++;
+			}
+			$whereLike = !empty($whereLike)?$sqlWhere.' ('.$whereLike.') ':'';
+		}
 
 		// Main query to actually get the data
 		$data = self::sql_exec( $db, $bindings,
 			"SELECT `".implode("`, `", self::pluck($columns, 'db'))."`
 			 FROM `$table`
 			 $where
+			 $whereLike
 			 $order
 			 $limit"
 		);
@@ -269,7 +298,7 @@ class SSP {
 		$resFilterLength = self::sql_exec( $db, $bindings,
 			"SELECT COUNT(`{$primaryKey}`)
 			 FROM   `$table`
-			 $where"
+			 $where $whereLike"
 		);
 		$recordsFiltered = $resFilterLength[0][0];
 
