@@ -24,7 +24,6 @@
         <script src="./assets/js/charts-lines.js" defer></script>
         <script src="./assets/js/charts-pie.js" defer></script>
         <script src="./assets/js/jquery.min.js"></script>
-        <script src="./assets/drag-drop/dist/image-uploader.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css"/>
     </head>
 <head>

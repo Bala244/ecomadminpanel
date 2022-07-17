@@ -1,4 +1,4 @@
-<body>
+<body id="pjax-container">
     <style>
         #DataTables_Table_0_length select{
             width: 65px;

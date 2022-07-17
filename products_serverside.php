@@ -33,15 +33,41 @@ $columns = array(
     array( 'db' => 'name',  'dt' => 1 ),
     array( 'db' => 'sku_code',  'dt' => 2 ),
     array( 'db' => 'quantity',  'dt' => 3 ),
-    array( 'db' => 'status',  'dt' => 4 ),
+    array( 
+        'db'        => 'status', 
+        'dt'        => 4, 
+        'formatter' => function( $d, $row ) { 
+            return ($d == 1)?'Active':'Inactive'; 
+        } 
+    ) ,
     array("defaultContent: <button id='myBtn' type='button' class='btn'>Manage</button>", "dt" => 5)
 );
- 
+
+
+$searchFilter = array(); 
+if(!empty($_GET['name'])){ 
+    $searchFilter['search'] = array( 
+        'name' => $_GET['name'], 
+        'sku_code' => $_GET['name']
+    ); 
+}
+
+if(!empty($_GET['sub_category_1']) || !empty($_GET['sub_category_2']) || !empty($_GET['sub_category_3']) || !empty($_GET['sub_category_4']) || !empty($_GET['sub_category_5']) || !empty($_GET['sub_category_6']) || !empty($_GET['filter_order_val']) || !empty($_GET['filter_order'])){ 
+    $searchFilter['filter'] = array( 
+        'category_id' => $_GET['sub_category_1'],
+        'sub_category_id_1' => $_GET['sub_category_2'],
+        'sub_category_id_2' => $_GET['sub_category_3'],
+        'sub_category_id_3' => $_GET['sub_category_4'],
+        'sub_category_id_4' => $_GET['sub_category_5'],
+        'sub_category_id_5' => $_GET['sub_category_6']
+    ); 
+} 
+
 // SQL server connection information
 $sql_details = array(
     'user' => 'root',
     'pass' => '',
-    'db'   => 'packurs',
+    'db'   => 'packurss',
     'host' => 'localhost'
 );
  
@@ -54,5 +80,5 @@ $sql_details = array(
 require( 'ssp.class.php' );
  
 echo json_encode(
-    SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
+    SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $searchFilter )
 );
