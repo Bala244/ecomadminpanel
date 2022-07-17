@@ -91,3 +91,24 @@
     color: #fff;
     padding: 10px 10px 30px 45px;
 }
+#button-15{
+	position: relative;
+	width: 50px;
+    border-radius: 68px;
+    display: block;
+}
+#button-15 .knobs:before, #button-15 .knobs:after{position: absolute;top: 3px;width: 20px;height: 10px;color: #fff;font-size: 10px;font-weight: bold;text-align: center;line-height: 1;padding: 9px 4px;opacity: 1;border-radius: 50%;transform: scale(1);transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;}
+#button-15 .knobs:before{content: '';left: 4px;background-color: #fff;box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.35), 0 10px 10px -5px rgba(0, 0, 0, 0.20);}
+#button-15 .knobs:after{content: '';right: 4px;opacity: 0;transform: scale(4);background-color: #fff;}
+#button-15 .checkbox:checked + .knobs:before{opacity: 0;transform: scale(4);}
+#button-15 .checkbox:checked + .knobs:after{opacity: 1;transform: scale(1);}
+#button-15 .checkbox:checked ~ .layer{background-color: #17c2bd;}
+#button-15 .knobs, #button-15 .layer{position: absolute;top: 0;right: 0;bottom: 0;left: 0;}
+#button-15 .button{position: relative;top: 50%;width: 65px;height: 36px;margin: -20px auto 0 auto;overflow: hidden;margin: 0;}
+#button-15 .button.r,.button.r .layer{border-radius: 100px;}
+#button-15 .checkbox{position: relative;
+    width: 161px;
+    height: 23px;
+padding: 0 !important;margin: 0;opacity: 0;cursor: pointer;z-index: 3;}
+#button-15 .knobs{z-index: 2;}
+#button-15 .layer{cursor: pointer;width: 100%;background-color: #d3d3d3;transition: 0.3s ease all;z-index: 1;}
