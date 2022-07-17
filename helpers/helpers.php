@@ -99,6 +99,7 @@ function checkskucodeupdate($sku_code, $product_id){
 	$product_details = $db->get('products');
 
 	if(count($product_details) > 0){
+		// echo $product_details[0]['id'].' / '.$product_id;exit;
 		if($product_details[0]['id'] != $product_id){
 			$response = 'exists';
 			return $response;

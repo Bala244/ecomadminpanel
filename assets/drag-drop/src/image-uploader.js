@@ -11,7 +11,7 @@
             imagesInputName: 'images',
             preloadedInputName: 'preloaded',
             label: 'Drag & Drop files here or click to browse',
-            extensions: ['.jpg', '.jpeg', '.png', '.gif', '.svg'],
+            extensions: ['.jpg', '.jpeg', '.png', '.gif', '.svg', '.JPG', '.JPEG', '.GIF'],
             mimes: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'],
             maxSize: undefined,
             maxFiles: undefined,

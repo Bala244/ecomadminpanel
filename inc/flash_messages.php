@@ -17,7 +17,7 @@
     {
          echo '<a class="toast-msg toast-close flex items-center justify-between p-4 text-sm font-semibold text-red-600 bg-red-300 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red" href="javascript::">
               <div class="flex items-center">
-                <span>Error '.$_SESSION['success'].'</span>
+                <span>Error '.$_SESSION['failure'].'</span>
               </div>
               <span><i class="fas fa-times"></i></span>
             </a>';
@@ -28,7 +28,7 @@
     {
          echo '<a class="toast-msg toast-close flex items-center justify-between p-4 text-sm font-semibold text-yellow-600 bg-yellow-300 rounded-lg shadow-md focus:outline-none focus:shadow-outline-yellow" href="javascript::">
               <div class="flex items-center">
-                <span>Warning '.$_SESSION['success'].'</span>
+                <span>Warning '.$_SESSION['info'].'</span>
               </div>
               <span><i class="fas fa-times"></i></span>
             </a>';

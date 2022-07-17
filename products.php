@@ -30,7 +30,7 @@
     if($sub_category_id_3 != ''){
         $db->where('sub_category_id_3', $sub_category_id_3);
     }
-    if($sub_category_id_4sub_category_id_1 != ''){
+    if($sub_category_id_4 != ''){
         $db->where('sub_category_id_4', $sub_category_id_4);
     }
     if($sub_category_id_5 != ''){
@@ -122,7 +122,7 @@
                     <option value="">Select Sub Category 5</option>
                 </select>
 
-                <select name="order_by_column" class="filter_order_val p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                <?php /* ?><select name="order_by_column" class="filter_order_val p-4 block mt-1 mr-4 w-64 max-w-2xl text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                     <option value="">Select Order By Column</option>
                     <option value="quantity">Quantity</option>
                     <option value="amount">Amount</option>
@@ -140,7 +140,7 @@
                     <button class="mt-4 mr-4 px-8 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none" aria-label="Submit">
                         Submit
                     </button>
-                </div>
+                </div><?php */ ?>
             </div>
         </div>
 
@@ -157,7 +157,7 @@
                             <th class="px-4 py-3 w-2/12">Actions</th>
                         </tr>
                     </thead>
-                    
+
                 </table>
             </div>
         </div>
@@ -223,7 +223,7 @@
             $('.modal-backdrop').hide();
         });
 
-        
+
     });
 </script>
 <script>
@@ -350,7 +350,14 @@
                }
              },
             "columnDefs": [{"render": createManageBtn, "data": null, "targets": [5]}],
-            
+
+        });
+        // Redraw the table
+        table.draw();
+
+        // Redraw the table based on the custom input
+        $('.filter_name,.sub_category_1,.sub_category_2,.sub_category_3,.sub_category_4,.sub_category_5,.sub_category_6').bind("keyup change", function(){
+            table.draw();
         });
         // Redraw the table
         table.draw();

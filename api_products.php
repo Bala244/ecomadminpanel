@@ -36,10 +36,12 @@
     $sub_category_id_3 = isset($object['sub_category_id_3']) && $object['sub_category_id_3'] != '' ? $object['sub_category_id_3'] : '';
     $sub_category_id_4 = isset($object['sub_category_id_4']) && $object['sub_category_id_4'] != '' ? $object['sub_category_id_4'] : '';
     $sub_category_id_5 = isset($object['sub_category_id_5']) && $object['sub_category_id_5'] != '' ? $object['sub_category_id_5'] : '';
-
+    $page_limit = isset($object['page_limit']) && $object['page_limit'] != '' ? $object['page_limit'] : 20;
+    $page = isset($object['page']) && $object['page'] != '' ? $object['page'] : 1;
 
 
     $db = getDbInstance();
+    $db->pageLimit = $page_limit;
     if($name != ''){
         $db->where('name', '%'.$name.'%', 'LIKE');
     }
@@ -64,8 +66,9 @@
     if($sub_category_id_5 != ''){
         $db->where('sub_category_id_5', $sub_category_id_5);
     }
-
-    $products = $db->get('products');
+    $db->orderBy('id', 'desc');
+    // echo '<pre>';print_r($db);echo '</pre>';exit;
+    $products = $db->arraybuilder()->paginate('products', $page, 'products.*');
 
     if(count($products) > 0){
 
@@ -172,6 +175,7 @@
                 $user_name = $user_details[0]['name'];
             }
 
+            $product_list[$i]['id'] = $product['id'];
             $product_list[$i]['name'] = $product['name'];
             $product_list[$i]['description'] = $product['description'];
             $product_list[$i]['category_name'] = $product['name'];

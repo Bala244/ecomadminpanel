@@ -40,6 +40,8 @@
             if (($handle = fopen($filetmpname, "r")) !== FALSE){
                 $row = 1;
                 $i = 0;
+                $failed_count = 0;
+                $success_count = 0;
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){
                     $num = count($data);
                     if($row > 1){
@@ -77,42 +79,51 @@
                         $data_to_insert['created_at'] = $created_at;
                         $data_to_insert['created_by'] = $_SESSION['user_id'];
 
-                        $response = checkskucode($data['sku_code']);
+                        $response = checkskucode($data_to_insert['sku_code']);
 
-                        if($response = 'exists'){
-                            $_SESSION['failure'] = 'SKU Code already Exists.';
-                            header("Location:products.php");exit;
-                        }
+                        if($response == 'not_exists'){
 
-                        $db = getDbInstance();
-                        $last_id = $db->insert('products',$data_to_insert);
+                            $db = getDbInstance();
+                            $last_id = $db->insert('products',$data_to_insert);
 
-                        if($last_id){
-                            $product_images = explode(',', $data[5]);
-                            if(isset($data[5]) && $data[5] != ''){
-                                for($i=0;$i<count($product_images);$i++){
-                                    $filepath = trim($product_images[$i]);
+                            if($last_id){
+                                $product_images = explode(',', $data[5]);
+                                if(isset($data[5]) && $data[5] != ''){
+                                    for($i=0;$i<count($product_images);$i++){
+                                        $filepath = trim($product_images[$i]);
 
-                                    $data_to_db = array();
-                                    $data_to_db['product_id'] = $last_id;
-                                    $data_to_db['filepath'] = $filepath;
-                                    $data_to_db['created_at'] = $created_at;
-                                    $data_to_db['created_by'] = $_SESSION['user_id'];
+                                        $data_to_db = array();
+                                        $data_to_db['product_id'] = $last_id;
+                                        $data_to_db['filepath'] = $filepath;
+                                        $data_to_db['created_at'] = $created_at;
+                                        $data_to_db['created_by'] = $_SESSION['user_id'];
 
-                                    $db =  getDbInstance();
-                                    // echo '<pre>';print_r($data_to_db);echo '</pre>';exit;
+                                        $db =  getDbInstance();
+                                        // echo '<pre>';print_r($data_to_db);echo '</pre>';exit;
 
-                                    $insert_id = $db->insert('product_images', $data_to_db);
+                                        $insert_id = $db->insert('product_images', $data_to_db);
+                                    }
                                 }
+                                $success_count++;
                             }
+                        }else{
+                            $failed_count++;
                         }
+                        // echo $success_count.' / '.$failed_count;exit;
                     }
                     $row++;
                 }
             }
         }
 
-        $_SESSION['success'] = 'Product Uploaded Successfully';
+        $total_product_count = $row - 2;
+
+        if($success_count > 0){
+            // $_SESSION['success'] = 'Product Uploaded Successfully. Totally '.$success_count.' products uploaded.';
+            $_SESSION['success'] = $success_count." out of ".$total_product_count." products uploaded Successfully.";
+        }else{
+            $_SESSION['failure'] = $failed_count.' products failed to upload.';
+        }
         header("Location:products.php");exit;
 
     }
