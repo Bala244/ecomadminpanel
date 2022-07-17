@@ -359,6 +359,13 @@
         $('.filter_name,.sub_category_1,.sub_category_2,.sub_category_3,.sub_category_4,.sub_category_5,.sub_category_6').bind("keyup change", function(){
             table.draw();
         });
+        // Redraw the table
+        table.draw();
+        
+        // Redraw the table based on the custom input
+        $('.filter_name,.sub_category_1,.sub_category_2,.sub_category_3,.sub_category_4,.sub_category_5,.sub_category_6').bind("keyup change", function(){
+            table.draw();
+        });
     });
 
 </script>
@@ -378,4 +385,5 @@
             $('.modal-backdrop').show();
         }, 10);
     }
+
 </script>
